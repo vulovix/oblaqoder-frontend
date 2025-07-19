@@ -158,7 +158,7 @@ export function Communities() {
         {communities.map((community) => (
           <List.Item key={community.id} fw="500" w="100%" styles={{ itemWrapper: { width: "100%" }, itemLabel: { width: "100%" } }}>
             <Group justify="space-between" wrap="nowrap">
-              <Group gap="xs">
+              <Group gap="xs" wrap="nowrap">
                 <Incognito>
                   {community.isPublic ? (
                     <VscUnlock size={14} className="level-up-icon" strokeWidth={1} />
@@ -167,9 +167,9 @@ export function Communities() {
                   )}
                 </Incognito>
                 <Text
-                  size="sm"
-                  fw={500}
                   style={{ cursor: "pointer" }}
+                  size={community.name.length >= 24 ? "xs" : "sm"}
+                  fw={500}
                   onClick={() => {
                     navigate(`/communities/${community.slug}`);
                   }}

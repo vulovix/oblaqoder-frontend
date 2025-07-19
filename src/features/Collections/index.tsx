@@ -158,7 +158,7 @@ export function Collections() {
         {collections.map((collection) => (
           <List.Item key={collection.id} fw="500" w="100%" styles={{ itemWrapper: { width: "100%" }, itemLabel: { width: "100%" } }}>
             <Group justify="space-between" wrap="nowrap">
-              <Group gap="xs">
+              <Group gap="xs" wrap="nowrap">
                 <Incognito>
                   {collection.isPublic ? (
                     <VscUnlock size={14} className="level-up-icon" strokeWidth={1} />
@@ -167,9 +167,9 @@ export function Collections() {
                   )}
                 </Incognito>
                 <Text
-                  size="sm"
-                  fw={500}
                   style={{ cursor: "pointer" }}
+                  size={collection.name.length >= 24 ? "xs" : "sm"}
+                  fw={500}
                   onClick={() => {
                     navigate(`/collections/${collection.slug}`);
                   }}
