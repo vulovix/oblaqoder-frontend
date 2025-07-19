@@ -1,8 +1,6 @@
 import { ActionIcon, Button, Group, List, Loader, Menu, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { randomId } from "@mantine/hooks";
 import { VscAdd, VscClose, VscEdit, VscKebabVertical, VscLock, VscUnlock } from "react-icons/vsc";
-import { ImBooks } from "react-icons/im";
 import "./styles.scss";
 import { CategoryEvent, type ICategory } from "./types";
 import { useEvents } from "~/utils/events";
@@ -157,7 +155,7 @@ export function Categories() {
             No categories at the moment.
           </List.Item>
         )}
-        {categories.map((category, index) => (
+        {categories.map((category) => (
           <List.Item key={category.id} fw="500" w="100%" styles={{ itemWrapper: { width: "100%" }, itemLabel: { width: "100%" } }}>
             <Group justify="space-between" wrap="nowrap">
               <Group gap="xs">

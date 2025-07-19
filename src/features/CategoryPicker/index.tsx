@@ -10,7 +10,7 @@ import { useAuth } from "~/providers/Auth/useAuth";
 export function CategoryPicker() {
   const rootPath = "";
   const { isLoggedIn } = useAuth();
-  const { categories, loading, fetchCategories, fetchPublicCategories, resetState } = useCategoryPickerStore();
+  const { categories, fetchCategories, fetchPublicCategories, resetState } = useCategoryPickerStore();
 
   const fetchCategoriesList = isLoggedIn ? fetchCategories : fetchPublicCategories;
 

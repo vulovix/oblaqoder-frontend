@@ -10,7 +10,7 @@ import { useAuth } from "~/providers/Auth/useAuth";
 export function CommunityPicker() {
   const rootPath = "";
   const { isLoggedIn } = useAuth();
-  const { communities, loading, fetchCommunities, fetchAllCommunities, resetState } = useCommunityPickerStore();
+  const { communities, fetchCommunities, fetchAllCommunities, resetState } = useCommunityPickerStore();
 
   const fetchCommunitiesList = isLoggedIn ? fetchAllCommunities : fetchCommunities;
 

@@ -1,6 +1,5 @@
 import { ActionIcon, Button, Group, List, Loader, Menu, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { randomId } from "@mantine/hooks";
 import { VscAdd, VscClose, VscEdit, VscKebabVertical, VscLock, VscUnlock } from "react-icons/vsc";
 import "./styles.scss";
 import { CommunityEvent, type ICommunity } from "./types";
@@ -156,7 +155,7 @@ export function Communities() {
             No communities at the moment.
           </List.Item>
         )}
-        {communities.map((community, index) => (
+        {communities.map((community) => (
           <List.Item key={community.id} fw="500" w="100%" styles={{ itemWrapper: { width: "100%" }, itemLabel: { width: "100%" } }}>
             <Group justify="space-between" wrap="nowrap">
               <Group gap="xs">

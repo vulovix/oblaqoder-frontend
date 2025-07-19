@@ -12,7 +12,7 @@ export function CollapseDesktopLayout(props: PropsWithChildren) {
   const [opened, { toggle, close, open }] = useDisclosure(true);
   const [sidebarBurgerRef, setSidebarBurgerRef] = useState(null);
   const [sidebarBodyRef, setSidebarBodyRef] = useState(null);
-  const [asideBodyRef, setAsideBodyRef] = useState(null);
+  const [asideBodyRef] = useState(null);
   const sidebarRef = useClickOutside(
     () => {
       if (!isLayoutSm) {

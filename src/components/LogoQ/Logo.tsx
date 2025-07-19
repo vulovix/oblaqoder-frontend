@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { Group, Image, Stack, Text, Title } from "@mantine/core";
+import { Title } from "@mantine/core";
 import "./style.scss";
 import logo from "/icons/icon-64x64.png";
 

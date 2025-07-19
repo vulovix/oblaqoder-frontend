@@ -21,7 +21,7 @@ export function SocialPostForm() {
 
   const createPostStore = useCreatePostStore();
 
-  const [loadedImages, handleLoadedImages] = useListState<string>([]);
+  const [, handleLoadedImages] = useListState<string>([]);
   const [fileList, handleFileList] = useListState<File>([]);
 
   const collections = useCollectionStore((state) => state.collections);

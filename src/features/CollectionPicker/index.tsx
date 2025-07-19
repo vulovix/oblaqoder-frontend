@@ -10,7 +10,7 @@ import { useAuth } from "~/providers/Auth/useAuth";
 export function CollectionPicker() {
   const rootPath = "";
   const { isLoggedIn } = useAuth();
-  const { collections, loading, fetchCollections, fetchAllCollections, resetState } = useCollectionPickerStore();
+  const { collections, fetchCollections, fetchAllCollections, resetState } = useCollectionPickerStore();
 
   const fetchCollectionsList = isLoggedIn ? fetchAllCollections : fetchCollections;
 

@@ -10,8 +10,7 @@ export function Wall() {
   const { isLoggedIn } = useAuth();
   const { search } = useLocation();
 
-  const { posts, fetchInitialPosts, fetchMorePosts, isLoading, isLoadingMore, isError, isReachingEnd, resetPosts, removePost, toggleVisibility } =
-    useWallPosts();
+  const { posts, fetchInitialPosts, fetchMorePosts, isLoading, isLoadingMore, isReachingEnd, resetPosts, removePost, toggleVisibility } = useWallPosts();
 
   useEffect(() => {
     fetchInitialPosts(isLoggedIn);

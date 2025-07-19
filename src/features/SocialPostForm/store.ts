@@ -12,7 +12,7 @@ export interface CreatePostStore {
 }
 
 export const useCreatePostStore = create<CreatePostStore>((set, get, store) => ({
-  addPost: (post) => {
+  addPost: (post: Post) => {
     useWallStore.getState().addPost(post);
     useFilteredWallStore.getState().addPost(post);
   },

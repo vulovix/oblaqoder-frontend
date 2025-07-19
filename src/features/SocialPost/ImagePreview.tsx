@@ -1,10 +1,10 @@
-import { AspectRatio, Avatar, Box, Image, Modal } from "@mantine/core";
+import { AspectRatio, Box, Image, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 export const ImagePreview: React.FC<{
   data: string;
 }> = ({ data }) => {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { close }] = useDisclosure(false);
 
   return (
     <Box>

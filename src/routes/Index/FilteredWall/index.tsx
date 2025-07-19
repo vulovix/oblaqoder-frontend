@@ -35,7 +35,7 @@ export function FilteredWall() {
     fetchMorePosts,
     isLoading,
     isLoadingMore,
-    isError,
+    // isError,
     isReachingEnd,
     resetPosts,
     removePost,

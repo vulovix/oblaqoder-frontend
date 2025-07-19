@@ -1,6 +1,7 @@
 export type Post = {
   id: number;
   isPublic: boolean;
+  user: { id: number; name: string };
   content: string;
   userId: number;
   createdAt: string;

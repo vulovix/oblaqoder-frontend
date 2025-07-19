@@ -6,7 +6,6 @@ import "./Footer.scss";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { RiCopyrightFill } from "react-icons/ri";
-import { FaCopyright } from "react-icons/fa6";
 import { BsDot } from "react-icons/bs";
 
 export function Footer() {

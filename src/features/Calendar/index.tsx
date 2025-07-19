@@ -39,11 +39,11 @@ export function Calendar() {
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const queryDate = query.get("date");
 
-  const { posts: data, isLoading } = useCalendarPosts();
+  const { posts: data } = useCalendarPosts();
   const [value, setValue] = useState<Date>(queryDate ? new Date(queryDate) : new Date());
   const [date, setDate] = useState(new Date());
 
-  const doesPostExistForChoosenDate = checkIfPostExistForDate(value, data);
+  // const doesPostExistForChoosenDate = checkIfPostExistForDate(value, data);
   const isSelectedDateEqualAsTodaysDate = value.toDateString() === new Date().toDateString();
 
   const handleChange = (newValue: string | null) => {

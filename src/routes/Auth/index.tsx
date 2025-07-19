@@ -1,7 +1,7 @@
 import { supabase } from "~/lib/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { Loader, Stack, Title } from "@mantine/core";
+import { Loader, Stack } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { useAuth } from "~/providers/Auth/useAuth";
 // import { Logo } from "~/components/Logo/Logo";
