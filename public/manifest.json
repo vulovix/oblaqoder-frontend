@@ -1,7 +1,7 @@
 {
-  "name": "365 Days 366 Ways",
-  "short_name": "365x366",
-  "description": "365 Days 366 Ways",
+  "name": "Oblaqoder",
+  "short_name": "Oblaqoder",
+  "description": "Oblaqoder",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -20,14 +20,14 @@
   ],
   "_screenshots": [
     {
-      "src": "/images/desktop-screenshot1.png",
+      "src": "/images/desktop-screenshot.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop Dashboard View"
     },
     {
-      "src": "/images/mobile-screenshot1.png",
+      "src": "/images/mobile-screenshot.png",
       "sizes": "720x1280",
       "type": "image/png",
       "form_factor": "narrow",
