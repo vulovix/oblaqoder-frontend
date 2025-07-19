@@ -1,0 +1,28 @@
+.calendar {
+  margin: 0 auto;
+  width: calc(100% - 2 * var(--mantine-spacing-sm));
+  .header {
+    button {
+      svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+    }
+  }
+  .weekday {
+    font-weight: 600;
+    font-size: var(--mantine-font-size-xs);
+  }
+  .day {
+    font-weight: 500;
+    font-size: calc(var(--day-size) / 2.6);
+    &[data-selected] {
+      font-weight: 500;
+      background-color: var(--mantine-color-default);
+    }
+    &[data-today] {
+      border-color: var(--mantine-color-default);
+      // background-color: var(--mantine-color-default-color);
+    }
+  }
+}

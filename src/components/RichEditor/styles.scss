@@ -1,0 +1,17 @@
+.rich-editor {
+  border: none;
+  .tiptap.ProseMirror {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: var(--mantine-spacing-xs);
+    padding-bottom: var(--mantine-spacing-xs);
+    color: var(--mantine-color-default-color);
+    color: var(--mantine-color-default-color) !important;
+    font-size: var(--mantine-font-size-sm);
+  }
+  &.readonly {
+    .tiptap.ProseMirror {
+      color: inherit;
+    }
+  }
+}

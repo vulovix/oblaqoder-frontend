@@ -1,0 +1,60 @@
+@use "~/styles/mantine" as *;
+
+.index-container {
+  .main {
+    .sticky-container {
+      position: sticky;
+      top: 0;
+      // background-color: ;
+      background: var(--mantine-color-body);
+      z-index: 100;
+      .tab:not([data-active]) {
+        //   // z-index: 200;
+        //   // border-bottom: 2px solid red;
+        //   //   border-bottom: 1px solid var(--border-color);
+        //   //   // @mixin hover {
+        //   //   //   border-color: red; // var(--border-color);
+        //   //   // }
+      }
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        border-bottom: 2px solid #424242;
+        position: relative;
+        top: -2px;
+        z-index: 100;
+      }
+      .tab[data-active] {
+        // background-color: red;
+        z-index: 200 !important;
+      }
+    }
+    .tab {
+      color: white;
+      padding: 0 0 8px 0px !important;
+      &:hover {
+        color: var(--mantine-color-default-color);
+        background-color: transparent;
+      }
+      &[data-active] {
+        border-bottom-color: white;
+      }
+    }
+
+    .main-tab-list {
+      gap: var(--mantine-spacing-sm) !important;
+      flex-wrap: nowrap;
+      // justify-content: center;
+      @media (max-width: $mantine-breakpoint-sm) {
+        padding: 0 var(--mantine-spacing-sm) !important;
+      }
+    }
+    .main-content {
+      padding: 0 0px;
+      @media (max-width: $mantine-breakpoint-sm) {
+        padding: 0 calc(1 * var(--mantine-spacing-sm)) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@use "~/styles/mantine" as *;
+
+.footer-wrapper {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+}

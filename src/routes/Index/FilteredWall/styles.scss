@@ -1,0 +1,12 @@
+.wall-container {
+  // min-height: 200px;
+  // padding: var(--mantine-spacing-sm);
+  // background-color: var(--mantine-color-gray-7);
+  // .social-post:first-child {
+  //   padding-top: 0;
+  // }
+  .social-post:not(:last-child) {
+    // padding-bottom: var(--mantine-spacing-sm);
+    // border-bottom: 1px solid var(--mantine-color-default);
+  }
+}

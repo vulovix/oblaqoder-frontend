@@ -1,0 +1,43 @@
+// @use "styles/mantine" as *;
+
+body {
+  -webkit-tap-highlight-color: transparent; /* for removing the highlight */
+  font-weight: 400;
+}
+
+// *,
+// *:before,
+// *:after {
+//   margin: 0;
+//   padding: 0;
+
+//   -webkit-box-sizing: border-box !important;
+//   -moz-box-sizing: border-box !important;
+//   -ms-box-sizing: border-box !important;
+//   box-sizing: border-box !important;
+// }
+
+// @font-face {
+//   src: url("./fonts/Geist/Geist-VariableFont_wght.ttf");
+//   font-family: "Geist";
+// }
+
+// @font-face {
+//   src: url("./fonts/Rubik_Moonrocks/RubikMoonrocks-Regular.ttf");
+//   font-family: "Moonrocks";
+// }
+
+// @font-face {
+//   src: url("./fonts/Kalnia_Glaze/KalniaGlaze-VariableFont_wdth,wght.ttf");
+//   font-family: "KalniaGlaze";
+// }
+
+// @font-face {
+//   src: url("./fonts/Yatra_One/YatraOne-Regular.ttf");
+//   font-family: "YatraOne";
+// }
+
+// @font-face {
+//   src: url("./fonts/Moirai_One/MoiraiOne-Regular.ttf");
+//   font-family: "MoiraiOne";
+// }

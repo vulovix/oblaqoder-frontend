@@ -1,0 +1,39 @@
+.social-post {
+  // padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl);
+  .body {
+    padding-left: 50px;
+    padding-right: var(--mantine-spacing-md);
+    // padding-top: var(--mantine-spacing-xs);
+    font-size: var(--mantine-font-size-sm);
+
+    .tiptap {
+      padding: 0;
+    }
+  }
+
+  .content {
+    & > p:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .carousel {
+    .carousel-indicator {
+      width: 4px;
+      height: 4px;
+      transition: width 250ms ease;
+      &[data-active] {
+        width: 16px;
+      }
+    }
+    .carousel-controls {
+      transition: opacity 150ms ease;
+      opacity: 0;
+    }
+
+    &:hover {
+      .carousel-controls {
+        opacity: 1;
+      }
+    }
+  }
+}

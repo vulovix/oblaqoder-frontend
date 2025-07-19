@@ -1,0 +1,92 @@
+@use "~/styles/mantine" as *;
+
+.app-shell {
+  .app-shell-header {
+    margin: 0 auto;
+    z-index: 200;
+    @media (max-width: $mantine-breakpoint-xl) {
+      padding-left: var(--mantine-spacing-xs);
+      padding-right: var(--mantine-spacing-xs);
+    }
+    .wrapper {
+      align-items: center;
+      gap: 0;
+      height: 100%;
+    }
+  }
+  .app-shell-main {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0 auto;
+    .wrapper {
+      position: relative;
+    }
+    .wrapper-content {
+      width: 100%;
+      // .content-container.with-borders:not(.navbar-opened):not(.aside-opened) {
+      //   @media (max-width: $mantine-breakpoint-md) {
+      //     padding-top: 0 !important;
+      //   }
+      // }
+
+      .content-container {
+        padding: 0;
+        &.with-borders {
+          @media (max-width: $mantine-breakpoint-md) {
+            padding-top: 0 !important;
+          }
+        }
+        &.without-borders {
+          padding-top: 0 !important;
+        }
+      }
+    }
+    .app-shell-navbar {
+      &.opened {
+        display: unset;
+        position: sticky;
+      }
+      &.closed {
+        display: none;
+        position: static;
+      }
+      @media (max-width: $mantine-breakpoint-sm) {
+        position: fixed !important;
+      }
+      .wrapper {
+        min-height: 100%;
+        max-height: 100%;
+        overflow: auto;
+      }
+    }
+    .app-shell-aside {
+      &.opened {
+        display: unset;
+        position: sticky;
+      }
+      &.closed {
+        display: none;
+        position: static;
+      }
+      @media (max-width: $mantine-breakpoint-sm) {
+        position: fixed !important;
+      }
+      .wrapper {
+        min-height: 100%;
+      }
+    }
+  }
+  .app-shell-footer {
+    margin: 0 auto;
+    z-index: 200;
+    @media (max-width: $mantine-breakpoint-xl) {
+      padding-left: var(--mantine-spacing-xs);
+      padding-right: var(--mantine-spacing-xs);
+    }
+    .wrapper {
+      gap: 0;
+      height: 100%;
+      align-items: center;
+    }
+  }
+}

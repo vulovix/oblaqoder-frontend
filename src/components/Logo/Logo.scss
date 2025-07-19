@@ -1,0 +1,45 @@
+.logoLink {
+  color: inherit;
+  text-decoration: none;
+  text-align: center;
+  position: relative;
+  height: 100%;
+}
+.logoAsImage {
+  color: var(--mantine-color-default-color);
+  .sub,
+  .sup {
+    font-weight: 600;
+    position: relative;
+    right: 10px;
+    bottom: 0.6px;
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  .sup,
+  .sub {
+    padding-left: 4px;
+    line-height: 18px;
+  }
+  .sup {
+    border-bottom: 1.5px solid white;
+  }
+}
+
+// @keyframes shadowMove {
+//   0% {
+//     text-shadow: 1px 1px 1px var(--mantine-color-default-color);
+//   }
+//   25% {
+//     text-shadow: -1px -1px 1px var(--mantine-color-default-color);
+//   }
+//   50% {
+//     text-shadow: 1px -1px 1px var(--mantine-color-default-color);
+//   }
+//   75% {
+//     text-shadow: -1px 1px 1px var(--mantine-color-default-color);
+//   }
+//   100% {
+//     text-shadow: 1px 1px 1px var(--mantine-color-default-color);
+//   }
+// }
