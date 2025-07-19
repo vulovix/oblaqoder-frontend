@@ -168,7 +168,7 @@ export function Communities() {
                 </Incognito>
                 <Text
                   style={{ cursor: "pointer" }}
-                  size={community.name.length > 24 ? "xs" : "sm"}
+                  size={community.name.length > 25 ? "xs" : "sm"}
                   fw={500}
                   onClick={() => {
                     navigate(`/communities/${community.slug}`);
