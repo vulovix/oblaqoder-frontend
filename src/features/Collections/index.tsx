@@ -168,7 +168,7 @@ export function Collections() {
                 </Incognito>
                 <Text
                   style={{ cursor: "pointer" }}
-                  size={collection.name.length >= 24 ? "xs" : "sm"}
+                  size={collection.name.length > 24 ? "xs" : "sm"}
                   fw={500}
                   onClick={() => {
                     navigate(`/collections/${collection.slug}`);

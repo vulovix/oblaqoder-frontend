@@ -168,7 +168,7 @@ export function Categories() {
                 </Incognito>
                 <Text
                   style={{ cursor: "pointer" }}
-                  size={category.name.length >= 24 ? "xs" : "sm"}
+                  size={category.name.length > 24 ? "xs" : "sm"}
                   fw={500}
                   onClick={() => {
                     navigate(`/categories/${category.slug}`);
