@@ -9,7 +9,7 @@ import { useCategoryStore } from "~/features/Categories/store";
 import { useFilteredPosts } from "./useFilteredPosts";
 
 export function FilteredWall() {
-  const { main, section, item } = useParams();
+  const { main, section } = useParams();
   const collections = useCollectionStore((state) => state.collections);
   const communities = useCommunityStore((state) => state.communities);
   const categories = useCategoryStore((state) => state.categories);

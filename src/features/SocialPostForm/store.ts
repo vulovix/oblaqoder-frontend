@@ -11,7 +11,7 @@ export interface CreatePostStore {
   assignPostToRelation: (relation: AssignPostRelation) => Promise<void>;
 }
 
-export const useCreatePostStore = create<CreatePostStore>((set, get, store) => ({
+export const useCreatePostStore = create<CreatePostStore>((_set, get, _store) => ({
   addPost: (post: Post) => {
     useWallStore.getState().addPost(post);
     useFilteredWallStore.getState().addPost(post);

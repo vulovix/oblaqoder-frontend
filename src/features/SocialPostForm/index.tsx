@@ -17,7 +17,7 @@ import { useAuth } from "~/providers/Auth/useAuth";
 export function SocialPostForm() {
   const { account } = useAuth();
   const [key, setKey] = useState(new Date().getTime());
-  const { main, section, item } = useParams();
+  const { main, section } = useParams();
 
   const createPostStore = useCreatePostStore();
 
@@ -82,7 +82,7 @@ export function SocialPostForm() {
       content,
       isPublic,
       userId: account.id,
-      files: files.map((file, index) => fileList[index]) as any,
+      files: files.map((_file, index) => fileList[index]) as any,
     };
 
     const relation = getRelation();

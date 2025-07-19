@@ -155,7 +155,7 @@ export function Collections() {
             No collections at the moment.
           </List.Item>
         )}
-        {collections.map((collection, index) => (
+        {collections.map((collection) => (
           <List.Item key={collection.id} fw="500" w="100%" styles={{ itemWrapper: { width: "100%" }, itemLabel: { width: "100%" } }}>
             <Group justify="space-between" wrap="nowrap">
               <Group gap="xs">
