@@ -6,19 +6,24 @@ import { usePostsStore as useFilteredWallStore } from "~/routes/Index/FilteredWa
 import { api } from "~/lib/axios";
 
 export interface CreatePostStore {
+  isLoading: boolean;
   addPost: (post: Post) => void;
+  setIsLoading: (loading: boolean) => void;
   createPost: (post: CreatePost, relation?: CreatePostRelation) => void;
   assignPostToRelation: (relation: AssignPostRelation) => Promise<void>;
 }
 
-export const useCreatePostStore = create<CreatePostStore>((_set, get, _store) => ({
+export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => ({
+  isLoading: false,
   addPost: (post: Post) => {
     useWallStore.getState().addPost(post);
     useFilteredWallStore.getState().addPost(post);
   },
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
   createPost: async (post: CreatePost, relation?: CreatePostRelation): Promise<void> => {
     const { content, files = [], isPublic, userId } = post;
     try {
+      get().setIsLoading(true);
       // Step 1: Create post
       const postRes = await api.post<Post>("/posts", { content, isPublic, userId });
       const createdPost = postRes.data;
@@ -50,6 +55,8 @@ export const useCreatePostStore = create<CreatePostStore>((_set, get, _store) =>
       }
     } catch (error) {
       console.error("Failed to create post:", error);
+    } finally {
+      get().setIsLoading(false);
     }
   },
   assignPostToRelation: async ({ postId, relation, relationId }: AssignPostRelation) => {

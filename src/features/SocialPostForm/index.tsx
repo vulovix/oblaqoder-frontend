@@ -19,7 +19,7 @@ export function SocialPostForm() {
   const [key, setKey] = useState(new Date().getTime());
   const { main, section } = useParams();
 
-  const createPostStore = useCreatePostStore();
+  const { createPost, isLoading } = useCreatePostStore();
 
   const [, handleLoadedImages] = useListState<string>([]);
   const [fileList, handleFileList] = useListState<File>([]);
@@ -87,7 +87,7 @@ export function SocialPostForm() {
 
     const relation = getRelation();
 
-    await createPostStore.createPost(payload, relation);
+    await createPost(payload, relation);
 
     form.reset();
     handleFileList.setState([]);
@@ -188,7 +188,7 @@ export function SocialPostForm() {
             </Tooltip>
           </Flex>
           <Group>
-            <Button type="submit" color="gray" disabled={isFormInvalid}>
+            <Button type="submit" color="gray" disabled={isLoading || isFormInvalid} loading={isLoading} loaderProps={{ size: "xs" }}>
               Post
             </Button>
           </Group>
