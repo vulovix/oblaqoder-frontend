@@ -128,7 +128,7 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
   //     get().setIsUpdating(false);
   //   }
   // },
-  updatePost: async (model: Post, updatedData: Partial<CreatePost>, relation?: CreatePostRelation): Promise<void> => {
+  updatePost: async (model: Post, updatedData: Partial<CreatePost>, _relation?: CreatePostRelation): Promise<void> => {
     const { content, files = [], isPublic, userId } = updatedData;
 
     try {
@@ -147,7 +147,7 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
       const oldFiles = model.files ?? [];
       const newFiles = files ?? [];
 
-      const oldFileIds = new Set(oldFiles.map((f) => f.id));
+      // const oldFileIds = new Set(oldFiles.map((f) => f.id));
       const newFileIds = new Set(newFiles.filter((f: any) => typeof f === "object" && "id" in f).map((f: any) => f.id));
 
       // Files to remove (in old, but not in new)
