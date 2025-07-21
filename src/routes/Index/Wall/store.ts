@@ -9,6 +9,7 @@ export interface WallPostsStore {
   removePost: (postId: number) => void;
   toggleVisibility: (postId: number) => void;
   addPost: (post: Post) => void;
+  updatePost: (post: Post) => void;
 }
 
 export const usePostsStore = create<WallPostsStore>((set) => ({
@@ -30,5 +31,9 @@ export const usePostsStore = create<WallPostsStore>((set) => ({
   addPost: (post) =>
     set((state: WallPostsStore) => ({
       posts: [post, ...state.posts],
+    })),
+  updatePost: (updatedPost) =>
+    set((state: WallPostsStore) => ({
+      posts: state.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post)),
     })),
 }));

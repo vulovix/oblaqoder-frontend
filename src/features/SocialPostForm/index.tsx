@@ -13,13 +13,20 @@ import { useCommunityStore } from "../Communities/store";
 import { useCategoryStore } from "../Categories/store";
 import { useParams } from "react-router";
 import { useAuth } from "~/providers/Auth/useAuth";
+import type { Post } from "./types";
+import { convertToBase64, convertImageUrlToFile } from "~/utils";
+import { modals } from "@mantine/modals";
 
-export function SocialPostForm() {
+export interface SocialPostFormProps {
+  model?: Post;
+}
+
+export function SocialPostForm({ model }: SocialPostFormProps) {
   const { account } = useAuth();
   const [key, setKey] = useState(new Date().getTime());
   const { main, section } = useParams();
 
-  const { createPost, isLoading } = useCreatePostStore();
+  const { createPost, updatePost, isLoading, isUpdating } = useCreatePostStore();
 
   const [, handleLoadedImages] = useListState<string>([]);
   const [fileList, handleFileList] = useListState<File>([]);
@@ -27,6 +34,8 @@ export function SocialPostForm() {
   const collections = useCollectionStore((state) => state.collections);
   const communities = useCommunityStore((state) => state.communities);
   const categories = useCategoryStore((state) => state.categories);
+
+  const forceRerender = () => setKey(new Date().getTime());
 
   const getRelation = () => {
     console.log("main ", main);
@@ -59,6 +68,25 @@ export function SocialPostForm() {
     form.setFieldValue("files", fileList as any);
   }, [fileList]);
 
+  useEffect(() => {
+    if (model) {
+      async function initModel(m: Post) {
+        form.setFieldValue("content", m.content);
+        form.setFieldValue("isPublic", m.isPublic);
+        if (m.files) {
+          const filesAsBase64 = await Promise.all(m.files.map((url) => convertToBase64(url.publicUrl)));
+          filesAsBase64.map((file, index) => onImageLoaded(file, index));
+
+          const files = await Promise.all(m.files.map((url) => convertImageUrlToFile(url.publicUrl)));
+          handleFileList.setState(files);
+          form.setFieldValue("files", files as any);
+        }
+        forceRerender();
+      }
+      initModel(model);
+    }
+  }, [model]);
+
   const onRemoveFile = (index: number) => {
     handleFileList.remove(index);
     handleLoadedImages.remove(index);
@@ -87,11 +115,16 @@ export function SocialPostForm() {
 
     const relation = getRelation();
 
-    await createPost(payload, relation);
+    if (model) {
+      await updatePost(model, payload, relation);
+      modals.closeAll();
+    } else {
+      await createPost(payload, relation);
+    }
 
     form.reset();
     handleFileList.setState([]);
-    setKey(new Date().getTime());
+    forceRerender();
   };
 
   const { hovered: filesInputHovered, ref: filesInputRef } = useHover();
@@ -188,8 +221,14 @@ export function SocialPostForm() {
             </Tooltip>
           </Flex>
           <Group>
-            <Button type="submit" color="gray" disabled={isLoading || isFormInvalid} loading={isLoading} loaderProps={{ size: "xs" }}>
-              Post
+            <Button
+              type="submit"
+              color="gray"
+              disabled={model ? isUpdating || isFormInvalid : isLoading || isFormInvalid}
+              loading={model ? isUpdating : isLoading}
+              loaderProps={{ size: "xs" }}
+            >
+              {model ? "Update" : ""} Post
             </Button>
           </Group>
         </Flex>

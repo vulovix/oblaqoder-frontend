@@ -31,7 +31,7 @@ export const FilePreview: React.FC<{
   return (
     <Box ref={ref}>
       {imageUrl ? (
-        <Tooltip label={file.name} withArrow>
+        <Tooltip label={file.name} maw={250} withArrow>
           <Box
             style={{
               paddingLeft: "10px",

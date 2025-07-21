@@ -69,10 +69,13 @@ export const useFilteredPosts = () => {
     }
   };
 
-  const removePostById = async (postId: number) => {
+  const removePostById = async (postId: number, deleteFiles: boolean) => {
     setIsError(false);
     try {
       await api.delete<Post>(`/posts/${postId}`);
+      if (deleteFiles) {
+        await api.delete<Post>(`/post-files/by-post/${postId}`);
+      }
       removePost(postId);
     } catch (err) {
       console.error("Failed to remove post:", err);

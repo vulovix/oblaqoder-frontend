@@ -68,7 +68,7 @@ export function FilteredWall() {
   return (
     <Stack className="wall-container" gap={"sm"}>
       {data.map((x) => (
-        <SocialPost {...x} onRemove={removePost} onVisibilityToggle={toggleVisibility} />
+        <SocialPost key={x.updatedAt} {...x} onRemove={removePost} onVisibilityToggle={toggleVisibility} />
       ))}
       {isLoading && (
         <Center>

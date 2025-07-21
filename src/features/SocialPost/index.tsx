@@ -9,17 +9,20 @@ import avatar from "./avatar.png";
 import type { Post } from "./types";
 import { GoDotFill } from "react-icons/go";
 import { Incognito } from "~/components/Incognito";
-import { VscClose, VscKebabVertical, VscLock, VscUnlock } from "react-icons/vsc";
+import { VscClose, VscEdit, VscKebabVertical, VscLock, VscUnlock } from "react-icons/vsc";
 import { APP_NAME } from "~/configuration";
 import { RiAtLine } from "react-icons/ri";
+import { modals } from "@mantine/modals";
+import { SocialPostForm } from "../SocialPostForm";
 
 export type SocialPostProps = {
-  onRemove(postId: number): void;
+  // onEdit(postId: number): void;
+  onRemove(postId: number, deleteFiles: boolean): void;
   onVisibilityToggle(postId: number, isPublic: boolean): void;
 } & Post;
 export function SocialPost(props: SocialPostProps) {
   const navigate = useNavigate();
-  const { content, createdAt, files, id, communities, collections, categories, isPublic, onRemove, onVisibilityToggle, user } = props;
+  const { content, createdAt, updatedAt, files, id, communities, collections, categories, isPublic, onRemove, onVisibilityToggle, user } = props;
 
   return (
     <Paper radius={0} className={"social-post"}>
@@ -105,8 +108,42 @@ export function SocialPost(props: SocialPostProps) {
                     Set as Public
                   </Menu.Item>
                 )}
+                <Menu.Item
+                  fz="xs"
+                  fw="500"
+                  leftSection={<VscEdit size={14} strokeWidth={1} />}
+                  onClick={() => {
+                    modals.open({
+                      title: "Update Post",
+                      children: (
+                        <>
+                          <SocialPostForm
+                            model={{
+                              id,
+                              user,
+                              files,
+                              content,
+                              userId: user.id,
+                              isPublic,
+                              updatedAt,
+                              createdAt,
+                            }}
+                          />
+                        </>
+                      ),
+                    });
+                  }}
+                >
+                  Edit
+                </Menu.Item>
                 <Menu.Label>Danger zone</Menu.Label>
-                <Menu.Item fz="xs" fw="500" color="red" leftSection={<VscClose size={14} strokeWidth={1} />} onClick={() => onRemove(id)}>
+                <Menu.Item
+                  fz="xs"
+                  fw="500"
+                  color="red"
+                  leftSection={<VscClose size={14} strokeWidth={1} />}
+                  onClick={() => onRemove(id, Boolean(files?.length))}
+                >
                   Remove
                 </Menu.Item>
               </Menu.Dropdown>
@@ -119,6 +156,7 @@ export function SocialPost(props: SocialPostProps) {
           <RichEditor readonly={true} key={id} value={content} />
           {files?.length ? (
             <Carousel
+              // key={files?.length ? files.map((file) => file.id).join("_") : "0"}
               className="carousel"
               withControls={false}
               withIndicators={files ? files.length > 1 : false}
@@ -128,8 +166,8 @@ export function SocialPost(props: SocialPostProps) {
                 controls: "carousel-controls",
               }}
             >
-              {files?.map((postFile, i) => (
-                <Carousel.Slide key={i}>
+              {files.map((postFile) => (
+                <Carousel.Slide key={postFile.id}>
                   <ImagePreview data={postFile.publicUrl} />
                 </Carousel.Slide>
               ))}

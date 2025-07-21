@@ -10,7 +10,7 @@ export function Wall() {
   const { isLoggedIn } = useAuth();
   const { search } = useLocation();
 
-  const { posts, fetchInitialPosts, fetchMorePosts, isLoading, isLoadingMore, isReachingEnd, resetPosts, removePost, toggleVisibility } = useWallPosts();
+  const { posts: data, fetchInitialPosts, fetchMorePosts, isLoading, isLoadingMore, isReachingEnd, resetPosts, removePost, toggleVisibility } = useWallPosts();
 
   useEffect(() => {
     fetchInitialPosts(isLoggedIn);
@@ -19,12 +19,17 @@ export function Wall() {
     };
   }, [search, isLoggedIn]);
 
-  const data = posts;
+  useEffect(() => {
+    console.log(data);
+    return () => {
+      // resetPosts();
+    };
+  }, [data]);
 
   return (
     <Stack className="wall-container" gap={"sm"}>
       {data.map((x) => (
-        <SocialPost {...x} onRemove={removePost} onVisibilityToggle={toggleVisibility} />
+        <SocialPost key={x.updatedAt} {...x} onRemove={removePost} onVisibilityToggle={toggleVisibility} />
       ))}
       {isLoading && (
         <Center>
