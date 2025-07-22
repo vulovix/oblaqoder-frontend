@@ -1,43 +1,23 @@
-// @use "styles/mantine" as *;
-
 body {
-  -webkit-tap-highlight-color: transparent; /* for removing the highlight */
+  -webkit-tap-highlight-color: transparent;
   font-weight: 400;
 }
 
-// *,
-// *:before,
-// *:after {
-//   margin: 0;
-//   padding: 0;
+.mantine-Modal-header {
+  background-color: var(--mantine-color-gray-light);
+  h2 {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  button {
+    svg {
+      stroke-width: 2px;
+    }
+  }
+}
 
-//   -webkit-box-sizing: border-box !important;
-//   -moz-box-sizing: border-box !important;
-//   -ms-box-sizing: border-box !important;
-//   box-sizing: border-box !important;
-// }
-
-// @font-face {
-//   src: url("./fonts/Geist/Geist-VariableFont_wght.ttf");
-//   font-family: "Geist";
-// }
-
-// @font-face {
-//   src: url("./fonts/Rubik_Moonrocks/RubikMoonrocks-Regular.ttf");
-//   font-family: "Moonrocks";
-// }
-
-// @font-face {
-//   src: url("./fonts/Kalnia_Glaze/KalniaGlaze-VariableFont_wdth,wght.ttf");
-//   font-family: "KalniaGlaze";
-// }
-
-// @font-face {
-//   src: url("./fonts/Yatra_One/YatraOne-Regular.ttf");
-//   font-family: "YatraOne";
-// }
-
-// @font-face {
-//   src: url("./fonts/Moirai_One/MoiraiOne-Regular.ttf");
-//   font-family: "MoiraiOne";
-// }
+.mantine-Modal-body {
+  padding-top: var(--mantine-spacing-sm);
+  padding-bottom: var(--mantine-spacing-sm);
+}
