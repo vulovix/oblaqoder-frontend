@@ -51,9 +51,9 @@
       }
     }
     .main-content {
-      padding: calc(var(--mantine-spacing-xs) / 2) 0px;
+      padding: calc(var(--mantine-spacing-sm) / 2) 0px;
       @media (max-width: $mantine-breakpoint-sm) {
-        padding: calc(var(--mantine-spacing-xs) / 2) var(--mantine-spacing-sm) 0 var(--mantine-spacing-sm) !important;
+        padding: calc(var(--mantine-spacing-sm) / 2) var(--mantine-spacing-sm) 0 var(--mantine-spacing-sm) !important;
       }
     }
   }
