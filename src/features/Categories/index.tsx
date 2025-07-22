@@ -114,7 +114,7 @@ export function Categories() {
                             type="text"
                             withAsterisk
                             label="Category Name"
-                            description="This will be the name of your category."
+                            description=" "
                             data-autofocus
                             placeholder="Enter name"
                             onInput={(e) => {
@@ -122,7 +122,6 @@ export function Categories() {
                             }}
                           />
                           <Button
-                            variant="subtle"
                             color="gray"
                             fullWidth
                             onClick={() => {
@@ -131,9 +130,9 @@ export function Categories() {
                               }
                               modals.closeAll();
                             }}
-                            mt="md"
+                            mt="sm"
                           >
-                            Done
+                            Create
                           </Button>
                         </>
                       ),
@@ -193,14 +192,14 @@ export function Categories() {
                         fw="500"
                         onClick={() => {
                           modals.open({
-                            title: "Update Category Name",
+                            title: "Update Category",
                             children: (
                               <>
                                 <TextInput
                                   type="text"
                                   withAsterisk
                                   label="Category Name"
-                                  description="This will be the name of your category."
+                                  description=" "
                                   data-autofocus
                                   placeholder="Enter name"
                                   defaultValue={category.name}
@@ -209,7 +208,6 @@ export function Categories() {
                                   }}
                                 />
                                 <Button
-                                  variant="subtle"
                                   color="gray"
                                   fullWidth
                                   onClick={() => {
@@ -218,9 +216,9 @@ export function Categories() {
                                     }
                                     modals.closeAll();
                                   }}
-                                  mt="md"
+                                  mt="sm"
                                 >
-                                  Done
+                                  Update
                                 </Button>
                               </>
                             ),

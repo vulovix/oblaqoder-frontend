@@ -114,7 +114,7 @@ export function Collections() {
                             type="text"
                             withAsterisk
                             label="Collection Name"
-                            description="This will be the name of your collection."
+                            description=" "
                             data-autofocus
                             placeholder="Enter name"
                             onInput={(e) => {
@@ -122,7 +122,6 @@ export function Collections() {
                             }}
                           />
                           <Button
-                            variant="subtle"
                             color="gray"
                             fullWidth
                             onClick={() => {
@@ -131,9 +130,9 @@ export function Collections() {
                               }
                               modals.closeAll();
                             }}
-                            mt="md"
+                            mt="sm"
                           >
-                            Done
+                            Create
                           </Button>
                         </>
                       ),
@@ -193,14 +192,14 @@ export function Collections() {
                         fw="500"
                         onClick={() => {
                           modals.open({
-                            title: "Update Collection Name",
+                            title: "Update Collection",
                             children: (
                               <>
                                 <TextInput
                                   type="text"
                                   withAsterisk
                                   label="Collection Name"
-                                  description="This will be the name of your collection."
+                                  description=" "
                                   data-autofocus
                                   placeholder="Enter name"
                                   defaultValue={collection.name}
@@ -209,7 +208,6 @@ export function Collections() {
                                   }}
                                 />
                                 <Button
-                                  variant="subtle"
                                   color="gray"
                                   fullWidth
                                   onClick={() => {
@@ -218,9 +216,9 @@ export function Collections() {
                                     }
                                     modals.closeAll();
                                   }}
-                                  mt="md"
+                                  mt="sm"
                                 >
-                                  Done
+                                  Update
                                 </Button>
                               </>
                             ),

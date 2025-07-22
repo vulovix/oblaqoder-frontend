@@ -86,7 +86,7 @@ export function IndexRoute() {
             </Tabs.List>
           </ScrollArea>
 
-          <Box className="main-content">
+          <Box className="main-content" pt="sm">
             <Incognito>
               <SocialPostForm />
             </Incognito>

@@ -227,6 +227,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
               disabled={model ? isUpdating || isFormInvalid : isLoading || isFormInvalid}
               loading={model ? isUpdating : isLoading}
               loaderProps={{ size: "xs" }}
+              size="xs"
             >
               {model ? "Update" : ""} Post
             </Button>

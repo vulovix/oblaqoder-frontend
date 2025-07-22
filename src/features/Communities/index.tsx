@@ -114,7 +114,7 @@ export function Communities() {
                             type="text"
                             withAsterisk
                             label="Community Name"
-                            description="This will be the name of your community."
+                            description=" "
                             data-autofocus
                             placeholder="Enter name"
                             onInput={(e) => {
@@ -122,7 +122,6 @@ export function Communities() {
                             }}
                           />
                           <Button
-                            variant="subtle"
                             color="gray"
                             fullWidth
                             onClick={() => {
@@ -131,9 +130,9 @@ export function Communities() {
                               }
                               modals.closeAll();
                             }}
-                            mt="md"
+                            mt="sm"
                           >
-                            Done
+                            Create
                           </Button>
                         </>
                       ),
@@ -193,14 +192,14 @@ export function Communities() {
                         fw="500"
                         onClick={() => {
                           modals.open({
-                            title: "Update Community Name",
+                            title: "Update Community",
                             children: (
                               <>
                                 <TextInput
                                   type="text"
                                   withAsterisk
                                   label="Community Name"
-                                  description="This will be the name of your community."
+                                  description=" "
                                   data-autofocus
                                   placeholder="Enter name"
                                   defaultValue={community.name}
@@ -209,7 +208,6 @@ export function Communities() {
                                   }}
                                 />
                                 <Button
-                                  variant="subtle"
                                   color="gray"
                                   fullWidth
                                   onClick={() => {
@@ -218,9 +216,9 @@ export function Communities() {
                                     }
                                     modals.closeAll();
                                   }}
-                                  mt="md"
+                                  mt="sm"
                                 >
-                                  Done
+                                  Update
                                 </Button>
                               </>
                             ),
