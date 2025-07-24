@@ -1,7 +1,6 @@
 import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Stack, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { LiaBroomSolid, LiaImage } from "react-icons/lia";
-import "./styles.scss";
+import { LiaImage } from "react-icons/lia";
 import { useForm } from "@mantine/form";
 import { useHover, useListState } from "@mantine/hooks";
 import { FilePreview } from "./FilePreview";
@@ -18,6 +17,8 @@ import { convertToBase64, convertImageUrlToFile } from "~/utils";
 import { modals } from "@mantine/modals";
 import { CREATE_POST_CONTENT_STORAGE_KEY, defaultInitialValues } from "./constants";
 import { RiEraserLine } from "react-icons/ri";
+import { GrRevert } from "react-icons/gr";
+import "./styles.scss";
 
 export interface SocialPostFormProps {
   model?: Post;
@@ -71,7 +72,12 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
     },
     onValuesChange: ({ content }) => {
       if (!model) {
-        localStorage.setItem(CREATE_POST_CONTENT_STORAGE_KEY, content);
+        let contentValue = content;
+        if (content === "<p></p>") {
+          contentValue = "";
+          form.setFieldValue("content", contentValue);
+        }
+        localStorage.setItem(CREATE_POST_CONTENT_STORAGE_KEY, contentValue);
       }
     },
   });
@@ -119,7 +125,6 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       content = "";
     }
     const payload = {
-      title: "Title",
       content,
       isPublic,
       userId: account.id,
@@ -266,7 +271,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
                     forceRerender();
                   }}
                 >
-                  <LiaBroomSolid size={15} className="level-up-icon" strokeWidth={0.8} />
+                  <GrRevert size={15} className="level-up-icon" strokeWidth={0.8} />
                 </ActionIcon>
               </Tooltip>
             ) : (
