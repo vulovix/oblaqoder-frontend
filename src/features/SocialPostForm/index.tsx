@@ -41,7 +41,6 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
   const forceRerender = () => setKey(new Date().getTime());
 
   const getRelation = () => {
-    console.log("main ", main);
     if (!main) {
       return undefined;
     }

@@ -25,7 +25,6 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
     useFilteredWallStore.getState().addPost(post);
   },
   updatePostInStore: (post: Post) => {
-    console.log("about to update post", post);
     useWallStore.getState().updatePost(post);
     useFilteredWallStore.getState().updatePost(post);
   },
@@ -60,12 +59,11 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
       };
 
       get().addPost(fullPost);
-      console.log(relation, "relation here", createdPost);
       if (relation) {
         get().assignPostToRelation({ postId: createdPost.id, relation: relation.relation, relationId: relation.relationId });
       }
     } catch (error) {
-      console.error("Failed to create post:", error);
+      // console.error("Failed to create post:", error);
     } finally {
       get().setIsLoading(false);
     }
@@ -205,7 +203,6 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
   },
   assignPostToRelation: async ({ postId, relation, relationId }: AssignPostRelation) => {
     try {
-      console.log("assigning ", { postId, relation, relationId });
       await api.post(`/posts/${postId}/${relation}/${relationId}`);
     } catch (error) {
       console.error(`Failed to assign post to ${relation}:`, error);
