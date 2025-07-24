@@ -137,9 +137,9 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       modals.closeAll();
     } else {
       await createPost(payload, relation);
+      form.setInitialValues(defaultInitialValues);
       localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
     }
-
     form.reset();
     handleFileList.setState([]);
     forceRerender();
