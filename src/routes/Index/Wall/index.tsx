@@ -19,13 +19,6 @@ export function Wall() {
     };
   }, [search, isLoggedIn]);
 
-  useEffect(() => {
-    console.log(data);
-    return () => {
-      // resetPosts();
-    };
-  }, [data]);
-
   return (
     <Stack className="wall-container" gap={"sm"}>
       {data.map((x) => (

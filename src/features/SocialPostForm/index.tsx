@@ -1,6 +1,6 @@
 import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Stack, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { LiaImage } from "react-icons/lia";
+import { LiaBroomSolid, LiaImage } from "react-icons/lia";
 import "./styles.scss";
 import { useForm } from "@mantine/form";
 import { useHover, useListState } from "@mantine/hooks";
@@ -16,6 +16,8 @@ import { useAuth } from "~/providers/Auth/useAuth";
 import type { Post } from "./types";
 import { convertToBase64, convertImageUrlToFile } from "~/utils";
 import { modals } from "@mantine/modals";
+import { CREATE_POST_CONTENT_STORAGE_KEY, defaultInitialValues } from "./constants";
+import { RiEraserLine } from "react-icons/ri";
 
 export interface SocialPostFormProps {
   model?: Post;
@@ -54,12 +56,23 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
     }
   };
 
+  const getContentInitialValue = () => {
+    if (model) {
+      return "";
+    }
+    return localStorage.getItem(CREATE_POST_CONTENT_STORAGE_KEY) || "";
+  };
+
   const form = useForm({
     mode: "controlled",
     initialValues: {
-      content: "",
-      files: [],
-      isPublic: true,
+      ...defaultInitialValues,
+      content: getContentInitialValue(),
+    },
+    onValuesChange: ({ content }) => {
+      if (!model) {
+        localStorage.setItem(CREATE_POST_CONTENT_STORAGE_KEY, content);
+      }
     },
   });
 
@@ -120,6 +133,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       modals.closeAll();
     } else {
       await createPost(payload, relation);
+      localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
     }
 
     form.reset();
@@ -219,6 +233,45 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
                 )}
               </ActionIcon>
             </Tooltip>
+
+            {!model && form.getValues().content?.length ? (
+              <Tooltip withArrow color="gray" position="bottom" events={{ hover: true, focus: true, touch: true }} fz="xs" fw="500" label={`Clear Content`}>
+                <ActionIcon
+                  style={{ transform: "none" }}
+                  variant="subtle"
+                  color="gray"
+                  onClick={() => {
+                    localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
+                    form.setFieldValue("content", "");
+                    forceRerender();
+                  }}
+                >
+                  <RiEraserLine size={15} className="level-up-icon" strokeWidth={0.8} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <></>
+            )}
+            {!model && JSON.stringify(defaultInitialValues) !== JSON.stringify(form.getValues()) ? (
+              <Tooltip withArrow color="gray" position="bottom" events={{ hover: true, focus: true, touch: true }} fz="xs" fw="500" label={`Reset Form`}>
+                <ActionIcon
+                  style={{ transform: "none" }}
+                  variant="subtle"
+                  color="gray"
+                  onClick={() => {
+                    form.setInitialValues(defaultInitialValues);
+                    form.reset();
+                    localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
+                    handleFileList.setState([]);
+                    forceRerender();
+                  }}
+                >
+                  <LiaBroomSolid size={15} className="level-up-icon" strokeWidth={0.8} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <></>
+            )}
           </Flex>
           <Group>
             <Button
