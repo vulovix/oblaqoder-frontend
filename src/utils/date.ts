@@ -1,24 +1,23 @@
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+dayjs.extend(utc);
 dayjs.extend(relativeTime);
 
 export function formatRelativeTime(input: Date | string): string {
-  const now = dayjs();
-  const date = dayjs(input);
+  const now = dayjs.utc().local();
+  const date = dayjs.utc(input).local();
 
   const diffInSeconds = now.diff(date, "second");
   const diffInMinutes = now.diff(date, "minute");
   const diffInHours = now.diff(date, "hour");
-  const diffInDays = now.diff(date, "day");
 
   if (diffInSeconds < 60) return "Just now";
   if (diffInMinutes < 60) return `${diffInMinutes}m`;
   if (diffInHours < 24) return `${diffInHours}h`;
-  if (diffInDays === 1) return "Yesterday";
-  // if (diffInDays <= 7) return `${diffInDays}d`;
 
-  return date.format("MMM D, YYYY"); // fallback to full date
+  return date.format("MMM D, YYYY");
 }
 
 export function formatDateTime(dateInput: Date | string): string {

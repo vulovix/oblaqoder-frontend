@@ -3,31 +3,25 @@ import { MdToday } from "react-icons/md";
 import { DatePicker, DatesProvider } from "@mantine/dates";
 import { VscKebabVertical, VscTarget } from "react-icons/vsc";
 import { ActionIcon, Group, Indicator, Menu, Stack, Title } from "@mantine/core";
-import "./styles.scss";
-// import { useWallPosts } from "routes/Index/Wall/useWallPosts";
-// import { ICollectionPost } from "routes/Collections/types";
 import { useLocation, useNavigate } from "react-router";
 import { getFormattedDate } from "~/utils/date";
 import { useCalendarPosts } from "./useCalendarPosts";
 import type { Post } from "./types";
+import dayjs from "dayjs";
+import "./styles.scss";
 
 const checkIfPostExistForDate = (date: Date, data: Array<Post>): boolean => {
-  const day = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-  const isActive = data.find((x) => {
-    const postDate = new Date(x.createdAt);
-    return postDate.getDate() === day && postDate.getMonth() === month && postDate.getFullYear() === year;
-  });
-  return Boolean(isActive);
+  const target = dayjs(date).startOf("day");
+
+  return data.some((x) => dayjs.utc(x.createdAt).local().isSame(target, "day"));
 };
+
 const dayRenderer = (date: Date, data: Array<Post>) => {
   const day = date.getDate();
   const isActive = checkIfPostExistForDate(date, data);
   return (
     <Indicator size={6} color="gray" offset={-5} disabled={!isActive}>
       <div>{day}</div>
-      {/* {isActive ? <div>{day}</div> : <div style={{ opacity: 0.5 }}>{day}</div>} */}
     </Indicator>
   );
 };
