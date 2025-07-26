@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Chip, Flex, Group, Menu, Paper, Pill, Stack, Text, TypographyStylesProvider } from "@mantine/core";
+import { ActionIcon, Avatar, Flex, Group, Menu, Paper, Pill, Stack, Text, TypographyStylesProvider } from "@mantine/core";
 import { RichEditor } from "~/components/RichEditor";
 import "./styles.scss";
 import { ImagePreview } from "./ImagePreview";
