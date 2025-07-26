@@ -7,6 +7,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 export function RichEditor({
   onChange,
   placeholder = "",
+  className = "",
   value = "",
   readonly = false,
 }: {
@@ -14,6 +15,7 @@ export function RichEditor({
   placeholder?: string;
   value?: string;
   readonly?: boolean;
+  className?: string;
 }) {
   const editor = useEditor({
     extensions: [StarterKit, Placeholder.configure({ placeholder }), Link],
@@ -27,7 +29,7 @@ export function RichEditor({
   return (
     <RichTextEditor
       editor={editor}
-      className={`rich-editor ${readonly ? "readonly" : ""}`}
+      className={`rich-editor ${className} ${readonly ? "readonly" : ""}`}
       // styles={{
       //   content: {
       //     padding: 0,

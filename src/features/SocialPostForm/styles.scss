@@ -1,3 +1,21 @@
-.social-post-form {
-  // padding: var(--mantine-spacing-sm) 0;
+.select-group-label {
+  text-transform: uppercase;
+  color: var(--mantine-color-dark-2);
+
+  &::after {
+    background-color: transparent;
+  }
+  .mantine-Select-option {
+    padding-left: 0;
+  }
+}
+.rich-editor-input {
+  &:not(.readonly) {
+    margin-bottom: var(--mantine-spacing-xs);
+  }
+  & .mantine-RichTextEditor-content {
+    padding-left: var(--mantine-spacing-sm);
+    padding-right: var(--mantine-spacing-sm);
+    border: 1px solid var(--mantine-color-dark-8);
+  }
 }

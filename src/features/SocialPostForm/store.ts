@@ -18,6 +18,11 @@ export interface CreatePostStore {
   createPost: (post: CreatePost, relation?: CreatePostRelation) => void;
   updatePost: (model: Post, post: CreatePost, relation?: CreatePostRelation) => void;
   updatePostRelation: (postId: number, oldRelation: CreatePostRelation | undefined, newRelation: CreatePostRelation | undefined) => void;
+  addPostRelationInStore: (
+    postId: number,
+    newRelation: CreatePostRelation | undefined,
+    relationObject: ICategory | ICollection | ICommunity | undefined
+  ) => void;
   updatePostRelationInStore: (
     postId: number,
     oldRelation: CreatePostRelation | undefined,
@@ -39,6 +44,10 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
     useWallStore.getState().updatePost(post);
     useFilteredWallStore.getState().updatePost(post);
   },
+  addPostRelationInStore: (postId: number, newRelation: CreatePostRelation | undefined, relationObject: ICategory | ICollection | ICommunity | undefined) => {
+    useWallStore.getState().addPostRelationToStore(postId, newRelation, relationObject);
+    useFilteredWallStore.getState().addPostRelationToStore(postId, newRelation, relationObject);
+  },
   updatePostRelationInStore: (
     postId: number,
     oldRelation: CreatePostRelation | undefined,
@@ -48,7 +57,6 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
     useWallStore.getState().updatePostRelationInStore(postId, newRelation, relationObject);
     useFilteredWallStore.getState().updatePostRelationInStore(postId, oldRelation, newRelation, relationObject);
   },
-
   setIsLoading: (isLoading: boolean) => set({ isLoading }),
   setIsUpdating: (isUpdating: boolean) => set({ isUpdating }),
   createPost: async (post: CreatePost, relation?: CreatePostRelation): Promise<void> => {
@@ -80,8 +88,11 @@ export const useCreatePostStore = create<CreatePostStore>((set, get, _store) => 
       };
 
       get().addPost(fullPost);
+
       if (relation) {
         get().assignPostToRelation({ postId: createdPost.id, relation: relation.relation, relationId: relation.relationId });
+        const { data } = await api.get<ICollection | ICommunity | ICategory>(`/${relation.relation}/${relation.relationId}`);
+        get().addPostRelationInStore(createdPost.id, relation, data);
       }
     } catch (error) {
       // console.error("Failed to create post:", error);

@@ -14,4 +14,9 @@
       color: inherit;
     }
   }
+  // &:not(.readonly) {
+  //   margin-bottom: var(--mantine-spacing-xs);
+  //   padding: var(--mantine-spacing-sm);
+  //   border: 1px solid var(--mantine-color-dark-8);
+  // }
 }

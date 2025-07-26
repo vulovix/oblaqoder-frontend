@@ -14,15 +14,20 @@ import { APP_NAME } from "~/configuration";
 import { RiAtLine } from "react-icons/ri";
 import { modals } from "@mantine/modals";
 import { SocialPostForm } from "../SocialPostForm";
+import { useCollectionStore } from "../Collections/store";
+import { useCommunityStore } from "../Communities/store";
+import { useCategoryStore } from "../Categories/store";
 
 export type SocialPostProps = {
-  // onEdit(postId: number): void;
   onRemove(postId: number, deleteFiles: boolean): void;
   onVisibilityToggle(postId: number, isPublic: boolean): void;
 } & Post;
 export function SocialPost(props: SocialPostProps) {
   const navigate = useNavigate();
   const { content, createdAt, updatedAt, files, id, communities, collections, categories, isPublic, onRemove, onVisibilityToggle, user } = props;
+  const { collections: allCollections } = useCollectionStore();
+  const { communities: allCommunities } = useCommunityStore();
+  const { categories: allCategories } = useCategoryStore();
   return (
     <Paper radius={0} className={"social-post"}>
       <Group gap={"xs"}>
@@ -45,13 +50,6 @@ export function SocialPost(props: SocialPostProps) {
             </Text> */}
             </Group>
 
-            <Text c="dimmed" fw="bold">
-              <GoDotFill size={6} style={{ position: "relative", bottom: "2px" }} />
-            </Text>
-            <Group justify="space-between">
-              <Text fz="14">{formatRelativeTime(new Date(createdAt))}</Text>
-            </Group>
-
             <Incognito>
               <Text c="dimmed" fw="bold">
                 <GoDotFill size={6} style={{ position: "relative", bottom: "2px" }} />
@@ -65,16 +63,26 @@ export function SocialPost(props: SocialPostProps) {
                   }}
                   p={0}
                   m={0}
-                  color="dimmed"
-                  icon={isPublic ? <VscUnlock /> : <VscLock />}
+                  color="transparent"
+                  icon={isPublic ? <VscUnlock size={13} fill="var(--mantine-color-dimmed)" /> : <VscLock size={13} fill="var(--mantine-color-dimmed)" />}
                   checked={true}
-                  size="xs"
+                  fz="14"
                   variant="filled"
                 >
-                  {isPublic ? "Everyone" : "Only You"}
+                  <Text fz="14" c="dimmed">
+                    {isPublic ? "Public" : "Private"}
+                  </Text>
                 </Chip>
               </Group>
             </Incognito>
+
+            <Text c="dimmed" fw="bold">
+              <GoDotFill size={6} style={{ position: "relative", bottom: "2px" }} />
+            </Text>
+
+            <Group justify="space-between">
+              <Text fz="14">{formatRelativeTime(new Date(createdAt))}</Text>
+            </Group>
           </Group>
 
           <Incognito>
@@ -115,23 +123,21 @@ export function SocialPost(props: SocialPostProps) {
                     modals.open({
                       title: "Update Post",
                       children: (
-                        <>
-                          <SocialPostForm
-                            model={{
-                              id,
-                              user,
-                              files,
-                              content,
-                              userId: user.id,
-                              isPublic,
-                              updatedAt,
-                              createdAt,
-                              collections,
-                              categories,
-                              communities,
-                            }}
-                          />
-                        </>
+                        <SocialPostForm
+                          model={{
+                            id,
+                            user,
+                            files,
+                            content,
+                            userId: user.id,
+                            isPublic,
+                            updatedAt,
+                            createdAt,
+                            collections,
+                            categories,
+                            communities,
+                          }}
+                        />
                       ),
                     });
                   }}
@@ -158,7 +164,6 @@ export function SocialPost(props: SocialPostProps) {
           <RichEditor readonly={true} key={id} value={content} />
           {files?.length ? (
             <Carousel
-              // key={files?.length ? files.map((file) => file.id).join("_") : "0"}
               className="carousel"
               withControls={false}
               withIndicators={files ? files.length > 1 : false}
@@ -179,59 +184,59 @@ export function SocialPost(props: SocialPostProps) {
           )}
           {collections?.length ? (
             <Group m="0" justify="space-between">
-              {collections.map((entity) => (
-                <Pill style={{ cursor: "pointer" }} size="sm" fw="500" onClick={() => navigate(`/collections/${entity.slug}`)}>
-                  {entity.name}
-                </Pill>
-              ))}
+              {collections.map((entity) => {
+                const obj = allCollections.find((x) => x.id === entity.id) || entity;
+                return (
+                  <Pill style={{ cursor: "pointer" }} size="sm" fw="400" onClick={() => navigate(`/collections/${entity.slug}`)}>
+                    <Incognito>
+                      {obj.isPublic ? <VscUnlock style={{ position: "relative", top: "2px" }} /> : <VscLock style={{ position: "relative", top: "2px" }} />}
+                      &nbsp;
+                    </Incognito>
+                    {entity.name}
+                  </Pill>
+                );
+              })}
             </Group>
           ) : (
             <></>
           )}
           {communities?.length ? (
             <Group mt={"0"} justify="space-between">
-              {communities.map((entity) => (
-                <Pill style={{ cursor: "pointer" }} size="sm" fw="500" onClick={() => navigate(`/communities/${entity.slug}`)}>
-                  {entity.name}
-                </Pill>
-              ))}
+              {communities.map((entity) => {
+                const obj = allCommunities.find((x) => x.id === entity.id) || entity;
+                return (
+                  <Pill style={{ cursor: "pointer" }} size="sm" fw="400" onClick={() => navigate(`/communities/${entity.slug}`)}>
+                    <Incognito>
+                      {obj.isPublic ? <VscUnlock style={{ position: "relative", top: "2px" }} /> : <VscLock style={{ position: "relative", top: "2px" }} />}
+                      &nbsp;
+                    </Incognito>
+                    {entity.name}
+                  </Pill>
+                );
+              })}
             </Group>
           ) : (
             <></>
           )}
           {categories?.length ? (
             <Group mt={"0"} justify="space-between">
-              {categories.map((entity) => (
-                <Pill style={{ cursor: "pointer" }} size="sm" fw="500" onClick={() => navigate(`/categories/${entity.slug}`)}>
-                  {entity.name}
-                </Pill>
-              ))}
+              {categories.map((entity) => {
+                const obj = allCategories.find((x) => x.id === entity.id) || entity;
+                return (
+                  <Pill style={{ cursor: "pointer" }} size="sm" fw="400" onClick={() => navigate(`/categories/${entity.slug}`)}>
+                    <Incognito>
+                      {obj.isPublic ? <VscUnlock style={{ position: "relative", top: "2px" }} /> : <VscLock style={{ position: "relative", top: "2px" }} />}
+                      &nbsp;
+                    </Incognito>
+                    {entity.name}
+                  </Pill>
+                );
+              })}
             </Group>
           ) : (
             <></>
           )}
         </Stack>
-        {/* <Group mt={files?.length ? "sm" : "0"} justify="space-between">
-          <Text fz="xs" c="dimmed">
-              {formatDateTime(new Date(createdAt))}
-            </Text>
-          <Tooltip color="dark" label="Share">
-              <CloseButton size="xs" color="gray" icon={<IoIosShareAlt />}></CloseButton>
-            </Tooltip>
-        </Group> */}
-        {/* <ScrollAreaAutosize>
-          <Avatar.Group spacing={0}>
-            {images.reverse().map((base64Data, i) => (
-              <ImagePreview data={base64Data} key={i} />
-            ))}
-            {images.reverse().map((base64Data, i) => (
-              <ImagePreview data={base64Data} key={i} />
-            ))}
-            {images.reverse().map((base64Data, i) => (
-              <ImagePreview data={base64Data} key={i} />
-            ))}
-          </Avatar.Group>
-        </ScrollAreaAutosize> */}
       </TypographyStylesProvider>
     </Paper>
   );

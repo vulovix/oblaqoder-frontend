@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Select, Stack, Tooltip } from "@mantine/core";
+import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Select, Stack, Text, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { LiaImage } from "react-icons/lia";
 import { useForm } from "@mantine/form";
@@ -62,9 +62,10 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
     if (main && section) {
       setRelation(getRelation());
     }
+    return () => {
+      setRelation(undefined);
+    };
   }, [main, section, categories, collections, communities]);
-
-  console.log(relation);
 
   const getContentInitialValue = () => {
     if (model) {
@@ -92,7 +93,6 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
   });
 
   useEffect(() => {
-    // ordered files as a source of truth
     form.setFieldValue("files", fileList as any);
   }, [fileList]);
 
@@ -163,19 +163,8 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       await updatePost(model, payload);
       const oldRelation = getModelRelation(model);
       await updatePostRelation(model.id, oldRelation, relation);
-      // if (oldRelation) {
-      //   unassignPostFromRelation({ postId: model.id, ...oldRelation });
-      // }
-      // if (relation) {
-      //   assignPostToRelation({ postId: model.id, ...relation });
-      // }
-
-      // if (oldRelation && oldRelation.relation !== newRelation.relation || oldRelation.relationId !== newRelation.relationId) {
-
       modals.closeAll();
     } else {
-      console.log("creating post with relation ", relation);
-
       await createPost(payload, relation);
       form.setInitialValues(defaultInitialValues);
       localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
@@ -229,7 +218,20 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       }}
     >
       <Stack className="social-post-form" gap={0}>
-        <RichEditor key={key} value={form.getValues().content} placeholder="What's happening?" onChange={(value) => form.setValues({ content: value })} />
+        {model ? (
+          <Text fw="500" tt="uppercase" fz="xs" mb="4">
+            Content
+          </Text>
+        ) : (
+          <></>
+        )}
+        <RichEditor
+          className={model ? "rich-editor-input" : ""}
+          key={key}
+          value={form.getValues().content}
+          placeholder="What's happening?"
+          onChange={(value) => form.setValues({ content: value })}
+        />
         <Box>
           <Tooltip.Group openDelay={300} closeDelay={100}>
             <Avatar.Group p="0">
@@ -247,14 +249,32 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
           </Tooltip.Group>
         </Box>
         {model ? (
-          <Stack gap="sm" mb="md">
+          <Stack gap="0" mb="md">
+            {model ? (
+              <Text fw="500" tt="uppercase" fz="xs" my="4">
+                RELATION
+              </Text>
+            ) : (
+              <></>
+            )}
             <Select
+              className="social-post-form-select"
               clearable
               allowDeselect={false}
               data={groupedData}
-              label="Relation"
               searchable
               value={relationIdKey}
+              styles={{
+                input: {
+                  background: "var(--mantine-color-body)",
+                  borderColor: "var(--mantine-color-dark-8)",
+                },
+                dropdown: {
+                  background: "var(--mantine-color-body)",
+                  borderColor: "var(--mantine-color-dark-8)",
+                },
+              }}
+              classNames={{ groupLabel: "select-group-label" }}
               placeholder="Add post to Collection, Community or Category"
               onChange={(value) => {
                 if (!value) {
@@ -272,70 +292,6 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
               }}
               w={"100%"}
             />
-            {/* 
-            {collections?.length ? (
-              <CollectionForm
-                label="Collection"
-                relationKey="collections"
-                relation={relation}
-                defaultRelation={model.collections[0]}
-                relations={collections}
-                onChange={(relationId: number | undefined) =>
-                  setRelation(
-                    relationId
-                      ? {
-                          relation: "collections",
-                          relationId: relationId,
-                        }
-                      : undefined
-                  )
-                }
-              />
-            ) : (
-              <></>
-            )}
-            {communities?.length ? (
-              <CollectionForm
-                label="Community"
-                relationKey="communities"
-                relation={relation}
-                defaultRelation={model.communities[0]}
-                relations={communities}
-                onChange={(relationId: number | undefined) =>
-                  setRelation(
-                    relationId
-                      ? {
-                          relation: "communities",
-                          relationId: relationId,
-                        }
-                      : undefined
-                  )
-                }
-              />
-            ) : (
-              <></>
-            )}
-            {categories?.length ? (
-              <CollectionForm
-                label="Category"
-                relationKey="categories"
-                relation={relation}
-                defaultRelation={model.categories[0]}
-                relations={categories}
-                onChange={(relationId: number | undefined) =>
-                  setRelation(
-                    relationId
-                      ? {
-                          relation: "categories",
-                          relationId: relationId,
-                        }
-                      : undefined
-                  )
-                }
-              />
-            ) : (
-              <></>
-            )} */}
           </Stack>
         ) : (
           <></>
@@ -363,7 +319,6 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
                       },
                       input: {
                         transition: "none",
-                        // background: "#FFFFFFAA",
                         background: filesInputHovered ? "var(--mantine-color-gray-light-hover)" : "",
                       },
                     }}

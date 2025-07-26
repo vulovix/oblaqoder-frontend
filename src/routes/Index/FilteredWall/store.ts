@@ -14,6 +14,11 @@ export interface FilteredWallStore {
   toggleVisibility: (postId: number) => void;
   addPost: (post: Post) => void;
   updatePost: (post: Post) => void;
+  addPostRelationToStore: (
+    postId: number,
+    newRelation: CreatePostRelation | undefined,
+    relationObject: ICategory | ICollection | ICommunity | undefined
+  ) => void;
   updatePostRelationInStore: (
     postId: number,
     oldRelation: CreatePostRelation | undefined,
@@ -46,6 +51,26 @@ export const usePostsStore = create<FilteredWallStore>((set) => ({
     set((state: FilteredWallStore) => ({
       posts: state.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post)),
     })),
+  addPostRelationToStore: (postId: number, newRelation: CreatePostRelation | undefined, relationObject: ICategory | ICollection | ICommunity | undefined) => {
+    if (!newRelation || !relationObject) return; // 🛡️ Skip invalid input
+    set((state: FilteredWallStore) => {
+      const updatedPosts = state.posts.map((post) => {
+        if (post.id !== postId) return post;
+
+        return {
+          ...post,
+          categories: [],
+          collections: [],
+          communities: [],
+          ...(newRelation.relation === "categories" ? { categories: [relationObject as ICategory] } : {}),
+          ...(newRelation.relation === "collections" ? { collections: [relationObject as ICollection] } : {}),
+          ...(newRelation.relation === "communities" ? { communities: [relationObject as ICommunity] } : {}),
+        };
+      });
+
+      return { posts: updatedPosts };
+    });
+  },
   updatePostRelationInStore: (
     postId: number,
     oldRelation: CreatePostRelation | undefined,
