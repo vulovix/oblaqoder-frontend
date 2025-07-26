@@ -22,7 +22,7 @@ export type Post = {
   createdAt: string;
   updatedAt: string;
   files?: PostFile[];
-  categories?: ICategory[];
-  collections?: ICollection[];
-  communities?: ICommunity[];
+  categories: ICategory[];
+  collections: ICollection[];
+  communities: ICommunity[];
 };

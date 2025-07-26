@@ -1,5 +1,9 @@
 import { create } from "zustand";
 import type { Post } from "./types";
+import type { ICategory } from "~/features/Categories/types";
+import type { ICollection } from "~/features/Collections/types";
+import type { ICommunity } from "~/features/Communities/types";
+import type { CreatePostRelation } from "~/features/SocialPostForm/types";
 
 export interface WallPostsStore {
   posts: Post[];
@@ -10,6 +14,11 @@ export interface WallPostsStore {
   toggleVisibility: (postId: number) => void;
   addPost: (post: Post) => void;
   updatePost: (post: Post) => void;
+  updatePostRelationInStore: (
+    postId: number,
+    relation: CreatePostRelation | undefined,
+    relationObject: ICategory | ICollection | ICommunity | undefined
+  ) => void;
 }
 
 export const usePostsStore = create<WallPostsStore>((set) => ({
@@ -36,4 +45,25 @@ export const usePostsStore = create<WallPostsStore>((set) => ({
     set((state: WallPostsStore) => ({
       posts: state.posts.map((post) => (post.id === updatedPost.id ? { ...post, ...updatedPost } : post)),
     })),
+  updatePostRelationInStore: (postId: number, relation: CreatePostRelation | undefined, relationObject: ICategory | ICollection | ICommunity | undefined) => {
+    set((state: WallPostsStore) => {
+      const posts = state.posts.map((post) => {
+        if (post.id !== postId) return post;
+
+        return {
+          ...post,
+          // Clear all
+          categories: [],
+          collections: [],
+          communities: [],
+          // Fill the selected one
+          ...(relation?.relation === "categories" && relationObject ? { categories: [relationObject as ICategory] } : {}),
+          ...(relation?.relation === "collections" && relationObject ? { collections: [relationObject as ICollection] } : {}),
+          ...(relation?.relation === "communities" && relationObject ? { communities: [relationObject as ICommunity] } : {}),
+        };
+      });
+
+      return { posts };
+    });
+  },
 }));

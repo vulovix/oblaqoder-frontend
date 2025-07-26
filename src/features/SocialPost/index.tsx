@@ -23,7 +23,6 @@ export type SocialPostProps = {
 export function SocialPost(props: SocialPostProps) {
   const navigate = useNavigate();
   const { content, createdAt, updatedAt, files, id, communities, collections, categories, isPublic, onRemove, onVisibilityToggle, user } = props;
-
   return (
     <Paper radius={0} className={"social-post"}>
       <Group gap={"xs"}>
@@ -127,6 +126,9 @@ export function SocialPost(props: SocialPostProps) {
                               isPublic,
                               updatedAt,
                               createdAt,
+                              collections,
+                              categories,
+                              communities,
                             }}
                           />
                         </>

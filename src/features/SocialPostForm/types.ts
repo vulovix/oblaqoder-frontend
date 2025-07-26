@@ -1,3 +1,7 @@
+import type { ICategory } from "../Categories/types";
+import type { ICollection } from "../Collections/types";
+import type { ICommunity } from "../Communities/types";
+
 export type Post = {
   id: number;
   isPublic: boolean;
@@ -6,6 +10,9 @@ export type Post = {
   userId: number;
   createdAt: string;
   updatedAt: string;
+  communities: ICommunity[];
+  collections: ICollection[];
+  categories: ICategory[];
   files?: PostFile[];
 };
 
@@ -46,4 +53,8 @@ export type AssignPostRelation = {
   postId: number;
   relation: string;
   relationId: number;
+};
+
+export type UnassignPostRelation = {
+  postId: number;
 };

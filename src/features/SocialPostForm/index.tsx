@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Stack, Tooltip } from "@mantine/core";
+import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Select, Stack, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { LiaImage } from "react-icons/lia";
 import { useForm } from "@mantine/form";
@@ -12,7 +12,7 @@ import { useCommunityStore } from "../Communities/store";
 import { useCategoryStore } from "../Categories/store";
 import { useParams } from "react-router";
 import { useAuth } from "~/providers/Auth/useAuth";
-import type { Post } from "./types";
+import type { CreatePostRelation, Post } from "./types";
 import { convertToBase64, convertImageUrlToFile } from "~/utils";
 import { modals } from "@mantine/modals";
 import { CREATE_POST_CONTENT_STORAGE_KEY, defaultInitialValues } from "./constants";
@@ -29,7 +29,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
   const [key, setKey] = useState(new Date().getTime());
   const { main, section } = useParams();
 
-  const { createPost, updatePost, isLoading, isUpdating } = useCreatePostStore();
+  const { createPost, updatePost, isLoading, isUpdating, updatePostRelation } = useCreatePostStore();
 
   const [, handleLoadedImages] = useListState<string>([]);
   const [fileList, handleFileList] = useListState<File>([]);
@@ -40,21 +40,31 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
 
   const forceRerender = () => setKey(new Date().getTime());
 
-  const getRelation = () => {
+  const getRelation = (): CreatePostRelation | undefined => {
     if (!main) {
       return undefined;
     }
     switch (main) {
       case "categories":
-        return { relation: main, relationId: categories.find((x) => x.slug === section)!.id };
+        return categories?.length ? { relation: main, relationId: categories.find((x) => x.slug === section)!.id } : undefined;
       case "collections":
-        return { relation: main, relationId: collections.find((x) => x.slug === section)!.id };
+        return collections?.length ? { relation: main, relationId: collections.find((x) => x.slug === section)!.id } : undefined;
       case "communities":
-        return { relation: main, relationId: communities.find((x) => x.slug === section)!.id };
+        return communities?.length ? { relation: main, relationId: communities.find((x) => x.slug === section)!.id } : undefined;
       default:
         return undefined;
     }
   };
+
+  const [relation, setRelation] = useState<CreatePostRelation | undefined>();
+
+  useEffect(() => {
+    if (main && section) {
+      setRelation(getRelation());
+    }
+  }, [main, section, categories, collections, communities]);
+
+  console.log(relation);
 
   const getContentInitialValue = () => {
     if (model) {
@@ -86,6 +96,23 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
     form.setFieldValue("files", fileList as any);
   }, [fileList]);
 
+  const getModelRelation = (m: Post): CreatePostRelation | undefined => {
+    let modelRelation;
+    if (m.collections?.length) {
+      const relationId = m.collections[0]?.id;
+      modelRelation = relationId ? { relation: "collections", relationId } : undefined;
+    }
+    if (m.communities?.length) {
+      const relationId = m.communities[0]?.id;
+      modelRelation = relationId ? { relation: "communities", relationId } : undefined;
+    }
+    if (m.categories?.length) {
+      const relationId = m.categories[0]?.id;
+      modelRelation = relationId ? { relation: "categories", relationId } : undefined;
+    }
+    return modelRelation;
+  };
+
   useEffect(() => {
     if (model) {
       async function initModel(m: Post) {
@@ -99,6 +126,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
           handleFileList.setState(files);
           form.setFieldValue("files", files as any);
         }
+        setRelation(getModelRelation(m));
         forceRerender();
       }
       initModel(model);
@@ -130,12 +158,24 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
       files: files.map((_file, index) => fileList[index]) as any,
     };
 
-    const relation = getRelation();
-
     if (model) {
-      await updatePost(model, payload, relation);
+      console.log("updating post with relation ", relation);
+      await updatePost(model, payload);
+      const oldRelation = getModelRelation(model);
+      await updatePostRelation(model.id, oldRelation, relation);
+      // if (oldRelation) {
+      //   unassignPostFromRelation({ postId: model.id, ...oldRelation });
+      // }
+      // if (relation) {
+      //   assignPostToRelation({ postId: model.id, ...relation });
+      // }
+
+      // if (oldRelation && oldRelation.relation !== newRelation.relation || oldRelation.relationId !== newRelation.relationId) {
+
       modals.closeAll();
     } else {
+      console.log("creating post with relation ", relation);
+
       await createPost(payload, relation);
       form.setInitialValues(defaultInitialValues);
       localStorage.removeItem(CREATE_POST_CONTENT_STORAGE_KEY);
@@ -154,6 +194,32 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
   if (isFilesAvailable) {
     isFormInvalid = false;
   }
+
+  const groupedData = [
+    {
+      group: "Collections",
+      items: collections.map((col) => ({
+        value: `collections-${col.id}`,
+        label: col.name,
+      })),
+    },
+    {
+      group: "Communities",
+      items: communities.map((com) => ({
+        value: `communities-${com.id}`,
+        label: com.name,
+      })),
+    },
+    {
+      group: "Categories",
+      items: categories.map((cat) => ({
+        value: `categories-${cat.id}`,
+        label: cat.name,
+      })),
+    },
+  ];
+
+  const relationIdKey = relation ? `${relation.relation}-${relation.relationId}` : null;
 
   return (
     <form
@@ -180,7 +246,100 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
             </Avatar.Group>
           </Tooltip.Group>
         </Box>
+        {model ? (
+          <Stack gap="sm" mb="md">
+            <Select
+              clearable
+              allowDeselect={false}
+              data={groupedData}
+              label="Relation"
+              searchable
+              value={relationIdKey}
+              placeholder="Add post to Collection, Community or Category"
+              onChange={(value) => {
+                if (!value) {
+                  setRelation(undefined);
+                  return;
+                }
 
+                const [type, idStr] = value.split("-");
+                const relationId = parseInt(idStr, 10);
+
+                setRelation({
+                  relation: type,
+                  relationId,
+                });
+              }}
+              w={"100%"}
+            />
+            {/* 
+            {collections?.length ? (
+              <CollectionForm
+                label="Collection"
+                relationKey="collections"
+                relation={relation}
+                defaultRelation={model.collections[0]}
+                relations={collections}
+                onChange={(relationId: number | undefined) =>
+                  setRelation(
+                    relationId
+                      ? {
+                          relation: "collections",
+                          relationId: relationId,
+                        }
+                      : undefined
+                  )
+                }
+              />
+            ) : (
+              <></>
+            )}
+            {communities?.length ? (
+              <CollectionForm
+                label="Community"
+                relationKey="communities"
+                relation={relation}
+                defaultRelation={model.communities[0]}
+                relations={communities}
+                onChange={(relationId: number | undefined) =>
+                  setRelation(
+                    relationId
+                      ? {
+                          relation: "communities",
+                          relationId: relationId,
+                        }
+                      : undefined
+                  )
+                }
+              />
+            ) : (
+              <></>
+            )}
+            {categories?.length ? (
+              <CollectionForm
+                label="Category"
+                relationKey="categories"
+                relation={relation}
+                defaultRelation={model.categories[0]}
+                relations={categories}
+                onChange={(relationId: number | undefined) =>
+                  setRelation(
+                    relationId
+                      ? {
+                          relation: "categories",
+                          relationId: relationId,
+                        }
+                      : undefined
+                  )
+                }
+              />
+            ) : (
+              <></>
+            )} */}
+          </Stack>
+        ) : (
+          <></>
+        )}
         <Flex justify={"space-between"}>
           <Flex align={"center"}>
             <Group p={0} ref={filesInputRef} style={{ position: "relative" }}>
