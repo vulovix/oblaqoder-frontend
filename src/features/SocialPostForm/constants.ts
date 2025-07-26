@@ -4,6 +4,6 @@ export const CREATE_POST_CONTENT_STORAGE_KEY = `${APP_NAME}_CREATE_POST_CONTENT_
 
 export const defaultInitialValues = {
   files: [],
-  isPublic: true,
+  isPublic: false,
   content: "",
 };
