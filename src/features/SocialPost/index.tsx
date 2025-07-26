@@ -54,26 +54,11 @@ export function SocialPost(props: SocialPostProps) {
               <Text c="dimmed" fw="bold">
                 <GoDotFill size={6} style={{ position: "relative", bottom: "2px" }} />
               </Text>
-              <Group justify="space-between">
-                <Chip
-                  styles={{
-                    label: {
-                      padding: 0,
-                    },
-                  }}
-                  p={0}
-                  m={0}
-                  color="transparent"
-                  icon={isPublic ? <VscUnlock size={13} fill="var(--mantine-color-dimmed)" /> : <VscLock size={13} fill="var(--mantine-color-dimmed)" />}
-                  checked={true}
-                  fz="14"
-                  variant="filled"
-                >
-                  <Text fz="14" c="dimmed">
-                    {isPublic ? "Public" : "Private"}
-                  </Text>
-                </Chip>
-              </Group>
+              <Pill style={{ cursor: "pointer", padding: "0px 0px" }} bg="transparent" size="md" fw="400">
+                {isPublic ? <VscUnlock style={{ position: "relative", top: "2px" }} /> : <VscLock style={{ position: "relative", top: "2px" }} />}
+                &nbsp;
+                {isPublic ? "Public" : "Private"}
+              </Pill>
             </Incognito>
 
             <Text c="dimmed" fw="bold">
