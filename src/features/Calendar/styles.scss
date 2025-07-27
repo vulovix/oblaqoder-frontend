@@ -18,7 +18,7 @@
     font-size: calc(var(--day-size) / 2.6);
     &[data-selected] {
       font-weight: 500;
-      background-color: var(--mantine-color-default);
+      background-color: var(--mantine-color-default-border);
     }
     &[data-today] {
       border-color: var(--mantine-color-default);

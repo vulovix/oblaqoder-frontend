@@ -20,7 +20,7 @@ const dayRenderer = (date: Date, data: Array<Post>) => {
   const day = date.getDate();
   const isActive = checkIfPostExistForDate(date, data);
   return (
-    <Indicator size={6} color="gray" offset={-5} disabled={!isActive}>
+    <Indicator size={6} color="var(--mantine-color-dimmed)" offset={-5} disabled={!isActive}>
       <div>{day}</div>
     </Indicator>
   );
