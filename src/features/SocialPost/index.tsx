@@ -5,7 +5,7 @@ import { ImagePreview } from "./ImagePreview";
 import { Carousel } from "@mantine/carousel";
 import { formatRelativeTime } from "~/utils/date";
 import { useNavigate } from "react-router";
-import avatar from "./avatar.png";
+import avatar from "~/assets/avatar.png";
 import type { Post } from "./types";
 import { GoDotFill } from "react-icons/go";
 import { Incognito } from "~/components/Incognito";

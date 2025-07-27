@@ -4,7 +4,6 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { Loader, Stack } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { useAuth } from "~/providers/Auth/useAuth";
-// import { Logo } from "~/components/Logo/Logo";
 import { LogoQ } from "~/components/LogoQ/Logo";
 
 export default function AuthRoute() {
