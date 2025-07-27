@@ -21,8 +21,7 @@
       background-color: var(--mantine-color-default-border);
     }
     &[data-today] {
-      border-color: var(--mantine-color-default);
-      // background-color: var(--mantine-color-default-color);
+      border-color: var(--mantine-color-default-border);
     }
   }
 }
