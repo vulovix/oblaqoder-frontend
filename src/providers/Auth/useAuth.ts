@@ -33,6 +33,7 @@ export const useAuth = create<AuthState>((set) => ({
   isAppReady: false,
   signOut: async () => {
     await supabase.auth.signOut();
+    await api.post("/users/logout");
     set({ session: null, user: null, account: null, isLoggedIn: false });
   },
   registerUser: async (payload: RegisterPayload) => {
