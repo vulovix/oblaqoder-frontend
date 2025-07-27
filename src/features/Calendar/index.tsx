@@ -7,9 +7,9 @@ import { useLocation, useNavigate } from "react-router";
 import { getFormattedDate } from "~/utils/date";
 import type { Post } from "./types";
 import dayjs from "dayjs";
-import "./styles.scss";
 import { useAuth } from "~/providers/Auth/useAuth";
 import { useCalendarPostsStore } from "./store";
+import "./styles.scss";
 
 const checkIfPostExistForDate = (date: Date, data: Array<Post>): boolean => {
   const target = dayjs(date).startOf("day");
@@ -34,7 +34,7 @@ export function Calendar() {
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const queryDate = query.get("date");
 
-  const { posts, isLoading, isError, fetchInitialPosts, resetPosts } = useCalendarPostsStore();
+  const { posts, fetchInitialPosts, resetPosts } = useCalendarPostsStore();
   const [value, setValue] = useState<Date>(queryDate ? new Date(queryDate) : new Date());
   const [date, setDate] = useState(new Date());
 
