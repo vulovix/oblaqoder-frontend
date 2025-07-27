@@ -267,11 +267,11 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
               styles={{
                 input: {
                   background: "var(--mantine-color-body)",
-                  borderColor: "var(--mantine-color-dark-8)",
+                  borderColor: "var(--mantine-color-default-border)",
                 },
                 dropdown: {
                   background: "var(--mantine-color-body)",
-                  borderColor: "var(--mantine-color-dark-8)",
+                  borderColor: "var(--mantine-color-default-border)",
                 },
               }}
               classNames={{ groupLabel: "select-group-label" }}

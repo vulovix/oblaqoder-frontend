@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Flex, Group, Menu, Paper, Pill, Stack, Text, TypographyStylesProvider } from "@mantine/core";
+import { ActionIcon, Avatar, Flex, Group, Menu, Paper, Pill, Stack, Text, TypographyStylesProvider, useMantineColorScheme } from "@mantine/core";
 import { RichEditor } from "~/components/RichEditor";
 import "./styles.scss";
 import { ImagePreview } from "./ImagePreview";
@@ -28,10 +28,12 @@ export function SocialPost(props: SocialPostProps) {
   const { collections: allCollections } = useCollectionStore();
   const { communities: allCommunities } = useCommunityStore();
   const { categories: allCategories } = useCategoryStore();
+  const { colorScheme } = useMantineColorScheme();
+  console.log(colorScheme);
   return (
     <Paper radius={0} className={"social-post"}>
       <Group gap={"xs"}>
-        <Avatar src={avatar} style={{ filter: "invert(1) brightness(1.5)" }} radius="xl" size="md" />
+        <Avatar src={avatar} style={{ filter: `invert(${colorScheme == "dark" ? 1 : 0})` }} radius="xl" size="md" />
         <Flex justify="space-between" flex={1}>
           <Group gap="4">
             <Group gap="0">

@@ -39,7 +39,7 @@ export function CategorySelect({
             {category} <BsDot strokeWidth={1} style={{ position: "relative", top: "2px" }} />
           </Text>
           {selectedOption ? (
-            <Text fz="sm" fw={600} onClick={onLabelClick} c="inherit">
+            <Text fz="sm" fw={600} onClick={onLabelClick} c="var(--mantine-color-text)">
               {selectedOption.label}&nbsp;
             </Text>
           ) : (

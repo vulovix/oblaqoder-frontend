@@ -32,6 +32,8 @@ export default function AuthRoute() {
               },
               input: {
                 // fontSize: "13px",
+                background: "transparent",
+                color: "var(--mantine-color-text)",
                 maxHeight: "40px",
               },
               label: {
@@ -45,7 +47,8 @@ export default function AuthRoute() {
                 // minHeight: "44px",
                 textTransform: "capitalize",
                 background: "var(--mantine-color-gray-filled)",
-                borderColor: "var(--mantine-color-gray-7)",
+                // borderColor: "var(--app-shell-border-color)",
+                borderColor: "transparent",
               },
             },
           }}
