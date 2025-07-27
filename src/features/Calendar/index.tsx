@@ -5,14 +5,14 @@ import { VscKebabVertical, VscTarget } from "react-icons/vsc";
 import { ActionIcon, Group, Indicator, Menu, Stack, Title } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router";
 import { getFormattedDate } from "~/utils/date";
-import { useCalendarPosts } from "./useCalendarPosts";
 import type { Post } from "./types";
 import dayjs from "dayjs";
 import "./styles.scss";
+import { useAuth } from "~/providers/Auth/useAuth";
+import { useCalendarPostsStore } from "./store";
 
 const checkIfPostExistForDate = (date: Date, data: Array<Post>): boolean => {
   const target = dayjs(date).startOf("day");
-
   return data.some((x) => dayjs.utc(x.createdAt).local().isSame(target, "day"));
 };
 
@@ -27,22 +27,21 @@ const dayRenderer = (date: Date, data: Array<Post>) => {
 };
 
 export function Calendar() {
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { search } = useLocation();
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const queryDate = query.get("date");
 
-  const { posts: data } = useCalendarPosts();
+  const { posts, isLoading, isError, fetchInitialPosts, resetPosts } = useCalendarPostsStore();
   const [value, setValue] = useState<Date>(queryDate ? new Date(queryDate) : new Date());
   const [date, setDate] = useState(new Date());
 
-  // const doesPostExistForChoosenDate = checkIfPostExistForDate(value, data);
   const isSelectedDateEqualAsTodaysDate = value.toDateString() === new Date().toDateString();
 
   const handleChange = (newValue: string | null) => {
     const v = newValue ? new Date(newValue) : new Date();
-
     setValue(v);
   };
 
@@ -66,6 +65,11 @@ export function Calendar() {
   };
 
   useEffect(() => {
+    fetchInitialPosts(isLoggedIn);
+    return () => resetPosts();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     onShowPostForSelectedDate();
   }, [value]);
 
@@ -85,7 +89,6 @@ export function Calendar() {
           style={{ borderBottom: "2px solid var(--mantine-color-default)", paddingBottom: "calc(var(--mantine-spacing-xs) / 1.3)" }}
         >
           <Group gap="calc(var(--mantine-spacing-xs) / 2)">
-            {/* <MdLocalActivity size="20" className="level-up-icon" /> */}
             <MdToday size="20" className="level-up-icon" />
             <Title size="sm" fw={600}>
               Calendar
@@ -109,41 +112,29 @@ export function Calendar() {
                 >
                   Focus on Today
                 </Menu.Item>
-                {/* {!isSelectedDateEqualAsTodaysDate && (
-                  <Menu.Item
-                    fz="xs"
-                    fw="500"
-                    onClick={() => onShowPostForSelectedDate()}
-                    disabled={!doesPostExistForChoosenDate || isSelectedDateEqualAsTodaysDate}
-                    leftSection={<VscCalendar className="level-up-icon" size={14} strokeWidth={1} />}
-                  >
-                    Show Posts for Selected Date
-                  </Menu.Item>
-                )} */}
               </Menu.Dropdown>
             </Menu>
           </Group>
         </Group>
         <DatePicker
           size="xs"
-          color="gray"
           date={date}
-          onDateChange={handleDateChange}
+          color="gray"
           value={value}
-          onChange={handleChange}
-          maxLevel="month"
-          maxDate={new Date()}
-          classNames={{
-            calendarHeader: "header",
-            weekday: "weekday",
-            day: "day",
-            weekNumber: "week-number",
-            month: "month",
-          }}
-          renderDay={(date) => dayRenderer(new Date(date), data)}
           highlightToday
+          maxLevel="month"
           weekdayFormat="ddd"
-          // withCellSpacing={false}
+          maxDate={new Date()}
+          onChange={handleChange}
+          onDateChange={handleDateChange}
+          renderDay={(date) => dayRenderer(new Date(date), posts)}
+          classNames={{
+            day: "day",
+            month: "month",
+            weekday: "weekday",
+            calendarHeader: "header",
+            weekNumber: "week-number",
+          }}
         />
       </DatesProvider>
     </Stack>

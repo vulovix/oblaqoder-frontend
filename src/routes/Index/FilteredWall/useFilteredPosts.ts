@@ -3,7 +3,8 @@ import { api } from "~/lib/axios";
 import { usePostsStore } from "./store";
 import type { Post } from "./types";
 
-interface UseFilteredPostsOptions {
+export interface UseFilteredPostsOptions {
+  includeHiddenSources: boolean;
   categoryId?: number;
   collectionId?: number;
   communityId?: number;
@@ -24,11 +25,14 @@ export const useFilteredPosts = () => {
   const [isError, setIsError] = useState(false);
   const [isReachingEnd, setIsReachingEnd] = useState(false);
 
-  const buildQueryParams = (offset: number, categoryId?: number, collectionId?: number, communityId?: number) => {
+  const buildQueryParams = (offset: number, includeHiddenSources: boolean, categoryId?: number, collectionId?: number, communityId?: number) => {
     const params = new URLSearchParams({
       limit: PAGE_SIZE.toString(),
       offset: offset.toString(),
     });
+    if (includeHiddenSources) {
+      params.set("includeHiddenSources", "true");
+    }
     if (categoryId) params.set("categoryId", categoryId.toString());
     else if (collectionId) params.set("collectionId", collectionId.toString());
     else if (communityId) params.set("communityId", communityId.toString());
@@ -36,11 +40,11 @@ export const useFilteredPosts = () => {
     return params.toString();
   };
 
-  const fetchInitialPosts = async ({ categoryId, collectionId, communityId }: UseFilteredPostsOptions) => {
+  const fetchInitialPosts = async ({ includeHiddenSources, categoryId, collectionId, communityId }: UseFilteredPostsOptions) => {
     setIsLoading(true);
     setIsError(false);
     try {
-      const res = await api.get<Post[]>(`/posts/filtered/paginated?${buildQueryParams(0, categoryId, collectionId, communityId)}`);
+      const res = await api.get<Post[]>(`/posts/filtered/paginated?${buildQueryParams(0, includeHiddenSources, categoryId, collectionId, communityId)}`);
       setPosts(res.data);
       setIsReachingEnd(res.data.length < PAGE_SIZE);
     } catch (err) {
@@ -51,12 +55,12 @@ export const useFilteredPosts = () => {
     }
   };
 
-  const fetchMorePosts = async ({ categoryId, collectionId, communityId }: UseFilteredPostsOptions) => {
+  const fetchMorePosts = async ({ includeHiddenSources, categoryId, collectionId, communityId }: UseFilteredPostsOptions) => {
     setIsLoadingMore(true);
     setIsError(false);
     try {
       const offset = posts.length;
-      const res = await api.get<Post[]>(`/posts/filtered/paginated?${buildQueryParams(offset, categoryId, collectionId, communityId)}`);
+      const res = await api.get<Post[]>(`/posts/filtered/paginated?${buildQueryParams(offset, includeHiddenSources, categoryId, collectionId, communityId)}`);
       loadMorePosts(res.data);
       if (res.data.length < PAGE_SIZE) {
         setIsReachingEnd(true);

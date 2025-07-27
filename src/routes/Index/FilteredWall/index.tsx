@@ -6,25 +6,27 @@ import { useParams } from "react-router";
 import { useCollectionStore } from "~/features/Collections/store";
 import { useCommunityStore } from "~/features/Communities/store";
 import { useCategoryStore } from "~/features/Categories/store";
-import { useFilteredPosts } from "./useFilteredPosts";
+import { useFilteredPosts, type UseFilteredPostsOptions } from "./useFilteredPosts";
+import { useAuth } from "~/providers/Auth/useAuth";
 
 export function FilteredWall() {
+  const { isLoggedIn } = useAuth();
   const { main, section } = useParams();
   const collections = useCollectionStore((state) => state.collections);
   const communities = useCommunityStore((state) => state.communities);
   const categories = useCategoryStore((state) => state.categories);
 
-  const getFilter = () => {
+  const getFilter = (): UseFilteredPostsOptions | undefined => {
     if (!main) {
       return undefined;
     }
     switch (main) {
       case "categories":
-        return { categoryId: categories.find((x) => x.slug === section)?.id };
+        return { includeHiddenSources: isLoggedIn, categoryId: categories.find((x) => x.slug === section)?.id };
       case "collections":
-        return { collectionId: collections.find((x) => x.slug === section)?.id };
+        return { includeHiddenSources: isLoggedIn, collectionId: collections.find((x) => x.slug === section)?.id };
       case "communities":
-        return { communityId: communities.find((x) => x.slug === section)?.id };
+        return { includeHiddenSources: isLoggedIn, communityId: communities.find((x) => x.slug === section)?.id };
       default:
         return undefined;
     }
@@ -63,7 +65,7 @@ export function FilteredWall() {
     return () => {
       resetPosts();
     };
-  }, [collections, communities, categories, section, main]);
+  }, [isLoggedIn, collections, communities, categories, section, main]);
 
   return (
     <Stack className="wall-container" gap={"sm"}>
