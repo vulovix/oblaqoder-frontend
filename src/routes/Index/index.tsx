@@ -91,9 +91,13 @@ export function IndexRoute() {
           </ScrollArea>
 
           <Box className="main-content">
-            <Incognito>
-              <SocialPostForm />
-            </Incognito>
+            {main == "topics" ? (
+              <></>
+            ) : (
+              <Incognito>
+                <SocialPostForm />
+              </Incognito>
+            )}
             <Tabs.Panel value="wall">
               <Wall />
             </Tabs.Panel>
