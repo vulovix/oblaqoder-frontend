@@ -8,10 +8,12 @@ import { useCommunityStore } from "~/features/Communities/store";
 import { useCategoryStore } from "~/features/Categories/store";
 import { useFilteredPosts, type UseFilteredPostsOptions } from "./useFilteredPosts";
 import { useAuth } from "~/providers/Auth/useAuth";
+import { useTopicStore } from "~/features/Topics/store";
 
 export function FilteredWall() {
   const { isLoggedIn } = useAuth();
   const { main, section } = useParams();
+  const topics = useTopicStore((state) => state.topics);
   const collections = useCollectionStore((state) => state.collections);
   const communities = useCommunityStore((state) => state.communities);
   const categories = useCategoryStore((state) => state.categories);
@@ -21,6 +23,8 @@ export function FilteredWall() {
       return undefined;
     }
     switch (main) {
+      case "topics":
+        return { includeHiddenSources: isLoggedIn, topicId: topics.find((x) => x.slug === section)?.id };
       case "categories":
         return { includeHiddenSources: isLoggedIn, categoryId: categories.find((x) => x.slug === section)?.id };
       case "collections":
@@ -37,7 +41,6 @@ export function FilteredWall() {
     fetchMorePosts,
     isLoading,
     isLoadingMore,
-    // isError,
     isReachingEnd,
     resetPosts,
     removePost,
@@ -47,7 +50,7 @@ export function FilteredWall() {
   const onFetchMore = () => {
     const filter = getFilter();
     if (filter) {
-      if (!filter.categoryId && !filter.collectionId && !filter.communityId) {
+      if (!filter.topicId && !filter.categoryId && !filter.collectionId && !filter.communityId) {
         return;
       }
       fetchMorePosts(filter);
@@ -56,7 +59,7 @@ export function FilteredWall() {
   useEffect(() => {
     const filter = getFilter();
     if (filter) {
-      if (!filter.categoryId && !filter.collectionId && !filter.communityId) {
+      if (!filter.topicId && !filter.categoryId && !filter.collectionId && !filter.communityId) {
         return;
       }
 
@@ -65,7 +68,7 @@ export function FilteredWall() {
     return () => {
       resetPosts();
     };
-  }, [isLoggedIn, collections, communities, categories, section, main]);
+  }, [isLoggedIn, topics, collections, communities, categories, section, main]);
 
   return (
     <Stack className="wall-container" gap={"sm"}>

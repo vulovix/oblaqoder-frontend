@@ -29,7 +29,6 @@ export function SocialPost(props: SocialPostProps) {
   const { communities: allCommunities } = useCommunityStore();
   const { categories: allCategories } = useCategoryStore();
   const { colorScheme } = useMantineColorScheme();
-  console.log(colorScheme);
   return (
     <Paper radius={0} className={"social-post"}>
       <Group gap={"xs"}>

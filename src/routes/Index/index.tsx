@@ -15,6 +15,7 @@ import { CollectionPicker } from "~/features/CollectionPicker";
 import { SocialPostForm } from "~/features/SocialPostForm";
 import { CategoryPicker } from "~/features/CategoryPicker";
 import { FilteredWall } from "./FilteredWall";
+import { TopicPicker } from "~/features/TopicPicker";
 
 export function IndexRoute() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export function IndexRoute() {
       navigate("/");
       return;
     }
-    const independentModules = ["collections", "communities", "categories"];
+    const independentModules = ["topics", "collections", "communities", "categories"];
     if (independentModules.includes(value)) {
       return;
     }
@@ -71,6 +72,9 @@ export function IndexRoute() {
               {/* <Tabs.Tab className="tab" value="achievements">
                 Achievements
               </Tabs.Tab> */}
+              <Tabs.Tab className="tab" value="topics">
+                <TopicPicker />
+              </Tabs.Tab>
               <Tabs.Tab className="tab" value="collections">
                 <CollectionPicker />
               </Tabs.Tab>
@@ -92,6 +96,9 @@ export function IndexRoute() {
             </Incognito>
             <Tabs.Panel value="wall">
               <Wall />
+            </Tabs.Panel>
+            <Tabs.Panel value="topics">
+              <FilteredWall />
             </Tabs.Panel>
             <Tabs.Panel value="collections">
               <FilteredWall />
