@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Group, List, Loader, Menu, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { VscAdd, VscClose, VscEdit, VscKebabVertical, VscLink, VscLock, VscMilestone, VscSymbolInterface, VscUnlock } from "react-icons/vsc";
+import { VscAdd, VscClose, VscEdit, VscKebabVertical, VscLock, VscSymbolInterface, VscUnlock } from "react-icons/vsc";
 import "./styles.scss";
 import { TopicEvent, type ITopic } from "./types";
 import { useEvents } from "~/utils/events";
@@ -10,7 +10,6 @@ import { useNavigate } from "react-router";
 import { useTopicStore } from "./store";
 import { createSlug } from "~/utils/string";
 import { modals } from "@mantine/modals";
-import { MdOutlineCategory } from "react-icons/md";
 import { useAuth } from "~/providers/Auth/useAuth";
 import { IoSparklesSharp } from "react-icons/io5";
 import { LinkTopicToRelationForm } from "./LinkTopicToRelationForm";
