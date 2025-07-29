@@ -26,7 +26,7 @@ export function CategoryPicker() {
   }, []);
 
   // In the future, this event can be renamed to CategoryUpdate if needed
-  useEvent(CategoryEvent.CategoryUpdate, (payload) => {
+  useEvent(CategoryEvent.CategoryUpdate, (_payload) => {
     // console.log("CategoriesUpdate event payload:", payload);
     fetchCategoriesList();
   });

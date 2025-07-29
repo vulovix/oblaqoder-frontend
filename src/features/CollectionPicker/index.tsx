@@ -25,7 +25,7 @@ export function CollectionPicker() {
     return () => resetState();
   }, []);
 
-  useEvent(CollectionEvent.CollectionUpdate, (payload) => {
+  useEvent(CollectionEvent.CollectionUpdate, (_payload) => {
     // console.log("CollectionUpdate event payload:", payload);
     fetchCollectionsList();
   });

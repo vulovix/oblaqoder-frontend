@@ -25,7 +25,7 @@ export function CommunityPicker() {
     return () => resetState();
   }, []);
 
-  useEvent(CommunityEvent.CommunityUpdate, (payload) => {
+  useEvent(CommunityEvent.CommunityUpdate, (_payload) => {
     // console.log("CommunityUpdate event payload:", payload);
     fetchCommunitiesList();
   });

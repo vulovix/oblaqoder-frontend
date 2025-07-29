@@ -1,5 +1,5 @@
 import { type PropsWithChildren, useEffect, useState } from "react";
-import { AppShell, Burger, Container, Flex, ScrollArea, Stack } from "@mantine/core";
+import { AppShell, Burger, Container, Flex, ScrollArea } from "@mantine/core";
 import { useClickOutside, useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { DEFAULT_CONTENT_WIDTH, DEFAULT_DRAWER_WIDTH } from "~/configuration";
 import { Footer } from "~/components/Footer/Footer";
