@@ -26,7 +26,7 @@ export function CollectionPicker() {
   }, []);
 
   useEvent(CollectionEvent.CollectionUpdate, (payload) => {
-    console.log("CollectionUpdate event payload:", payload);
+    // console.log("CollectionUpdate event payload:", payload);
     fetchCollectionsList();
   });
 

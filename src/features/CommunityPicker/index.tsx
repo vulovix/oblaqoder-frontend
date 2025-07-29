@@ -26,7 +26,7 @@ export function CommunityPicker() {
   }, []);
 
   useEvent(CommunityEvent.CommunityUpdate, (payload) => {
-    console.log("CommunityUpdate event payload:", payload);
+    // console.log("CommunityUpdate event payload:", payload);
     fetchCommunitiesList();
   });
 

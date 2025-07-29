@@ -159,7 +159,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
     };
 
     if (model) {
-      console.log("updating post with relation ", relation);
+      // console.log("updating post with relation ", relation);
       await updatePost(model, payload);
       const oldRelation = getModelRelation(model);
       await updatePostRelation(model.id, oldRelation, relation);

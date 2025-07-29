@@ -26,7 +26,7 @@ export function TopicPicker() {
   }, []);
 
   useEvent(TopicEvent.TopicUpdate, (payload) => {
-    console.log("TopicUpdate event payload:", payload);
+    // console.log("TopicUpdate event payload:", payload);
     fetchTopicsList();
   });
 

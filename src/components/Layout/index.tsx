@@ -92,9 +92,9 @@ export function CollapseDesktopLayout(props: PropsWithChildren) {
               className={`app-shell-navbar ${opened ? "opened" : "closed"}`}
               mah={`calc(100dvh - ${headerHeight}px - ${footerHeight}px - ${withBorders ? "2px" : "0px"})`}
             >
-              <Stack className="wrapper" ref={setSidebarBodyRef as any}>
+              <ScrollArea.Autosize className="wrapper" ref={setSidebarBodyRef as any} scrollbarSize={0}>
                 <Sidebar />
-              </Stack>
+              </ScrollArea.Autosize>
             </AppShell.Navbar>
 
             <ScrollArea className="wrapper-content" type="never" mah={`calc(100dvh - ${headerHeight}px - ${footerHeight}px - ${withBorders ? "2px" : "0px"})`}>
