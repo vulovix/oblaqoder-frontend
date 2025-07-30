@@ -322,7 +322,7 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
                         background: filesInputHovered ? "var(--mantine-color-gray-light-hover)" : "",
                       },
                     }}
-                    accept="image/png"
+                    accept="image/*"
                     valueComponent={() => null}
                     multiple
                     {...form.getInputProps("files")}
