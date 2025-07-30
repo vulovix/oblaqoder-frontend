@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Box, Flex, Group, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Flex, Group, Image, Tooltip } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { VscChevronLeft, VscChevronRight, VscClose } from "react-icons/vsc";
@@ -29,15 +29,16 @@ export const FilePreview: React.FC<{
   const { hovered, ref } = useHover();
 
   return (
-    <Box ref={ref}>
+    <Flex ref={ref} className="file-preview">
       {imageUrl ? (
-        <Tooltip label={file.name} maw={250} withArrow>
+        <Tooltip label={file.name} maw={250} withArrow color="dark">
           <Box
+            className="file-preview-box"
             style={{
-              paddingLeft: "10px",
+              // paddingLeft: "10px",
               position: "relative",
               // marginTop: "var(--mantine-spacing-sm)",
-              marginBottom: "var(--mantine-spacing-sm)",
+              // marginBottom: "var(--mantine-spacing-sm)",
             }}
           >
             {hovered ? (
@@ -67,22 +68,12 @@ export const FilePreview: React.FC<{
             ) : (
               <></>
             )}
-            <Avatar
-              style={
-                {
-                  //
-                  // border: "1px solid var(--mantine-color-default)"
-                }
-              }
-              size={128}
-              src={imageUrl}
-              radius="sm"
-            />
+            <Image w={128} src={imageUrl} radius="xs" />
           </Box>
         </Tooltip>
       ) : (
         <></>
       )}
-    </Box>
+    </Flex>
   );
 };

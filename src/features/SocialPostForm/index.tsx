@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Box, Button, FileInput, Flex, Group, Select, Stack, Text, Tooltip } from "@mantine/core";
+import { ActionIcon, Box, Button, FileInput, Flex, Group, ScrollArea, Select, Stack, Text, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { LiaImage } from "react-icons/lia";
 import { useForm } from "@mantine/form";
@@ -226,15 +226,15 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
           <></>
         )}
         <RichEditor
-          className={model ? "rich-editor-input" : ""}
+          className={model ? "rich-editor-update" : "rich-editor-create"}
           key={key}
           value={form.getValues().content}
           placeholder="What's happening?"
           onChange={(value) => form.setValues({ content: value })}
         />
-        <Box>
+        {form.values.files?.length ? (
           <Tooltip.Group openDelay={300} closeDelay={100}>
-            <Avatar.Group p="0">
+            <ScrollArea className="social-post-image-preview-list" scrollbarSize={0}>
               {form.values.files.map((file, i) => (
                 <FilePreview
                   key={i}
@@ -245,9 +245,11 @@ export function SocialPostForm({ model }: SocialPostFormProps) {
                   onMoveRight={i + 1 < fileList.length ? () => handleFileList.swap({ from: i, to: i + 1 }) : undefined}
                 />
               ))}
-            </Avatar.Group>
+            </ScrollArea>
           </Tooltip.Group>
-        </Box>
+        ) : (
+          <></>
+        )}
         {model ? (
           <Stack gap="0" mb="md">
             {model ? (

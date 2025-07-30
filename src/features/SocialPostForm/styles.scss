@@ -9,13 +9,34 @@
     padding-left: 0;
   }
 }
-.rich-editor-input {
+.rich-editor-update {
   &:not(.readonly) {
     margin-bottom: var(--mantine-spacing-xs);
   }
   & .mantine-RichTextEditor-content {
-    padding-left: var(--mantine-spacing-sm);
-    padding-right: var(--mantine-spacing-sm);
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
     border: 1px solid var(--mantine-color-default-border);
+  }
+  &:not(.readonly) & .mantine-RichTextEditor-content {
+    margin-bottom: var(--mantine-spacing-xs);
+  }
+}
+.rich-editor-create {
+  & .mantine-RichTextEditor-content {
+    padding: calc(var(--mantine-spacing-xs) / 2) 0 calc(var(--mantine-spacing-xs) / 2) 0;
+  }
+}
+.social-post-image-preview-list {
+  .mantine-ScrollArea-content {
+    display: flex;
+  }
+  .file-preview {
+    margin-top: var(--mantine-spacing-xs);
+  }
+  & .file-preview:not(:last-child) {
+    margin-right: var(--mantine-spacing-sm);
+  }
+  & .file-preview {
+    margin-bottom: var(--mantine-spacing-sm);
   }
 }
